@@ -1,0 +1,6 @@
+dataset,total_records,missing_values,duplicate_records,invalid_emails,invalid_phones,invalid_dates,data_type_errors,invalid_departments,quality_score_pct
+candidates,100,0,0,0,0,0,0,0,100.0
+stages,470,0,0,0,0,0,0,0,100.0
+interviews,80,0,0,0,0,0,0,0,100.0
+offers,70,0,0,0,0,0,0,0,100.0
+onboarding,50,0,0,0,0,0,0,0,100.0

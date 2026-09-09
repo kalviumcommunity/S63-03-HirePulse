@@ -1,0 +1,471 @@
+candidate_id,stage_name,status,stage_date
+C0001,Applied,Completed,2025-01-06
+C0001,Screening,Completed,2025-01-10
+C0001,Technical Interview,Completed,2025-01-14
+C0001,HR Interview,Completed,2025-01-18
+C0001,Offer Sent,Completed,2025-01-22
+C0001,Joined,Completed,2025-01-26
+C0002,Applied,Completed,2025-01-09
+C0002,Screening,Completed,2025-01-13
+C0002,Technical Interview,Completed,2025-01-17
+C0002,HR Interview,Completed,2025-01-21
+C0002,Offer Sent,Completed,2025-01-25
+C0002,Joined,Completed,2025-01-29
+C0003,Applied,Completed,2025-01-12
+C0003,Screening,Completed,2025-01-16
+C0003,Technical Interview,Completed,2025-01-20
+C0003,HR Interview,Completed,2025-01-24
+C0003,Offer Sent,Completed,2025-01-28
+C0003,Joined,Completed,2025-02-01
+C0004,Applied,Completed,2025-01-12
+C0004,Screening,Completed,2025-01-16
+C0004,Technical Interview,Completed,2025-01-20
+C0004,HR Interview,Completed,2025-01-24
+C0004,Offer Sent,Completed,2025-01-28
+C0004,Joined,Completed,2025-02-01
+C0005,Applied,Completed,2025-01-15
+C0005,Screening,Completed,2025-01-19
+C0005,Technical Interview,Completed,2025-01-23
+C0005,HR Interview,Completed,2025-01-27
+C0005,Offer Sent,Completed,2025-01-31
+C0005,Joined,Completed,2025-02-04
+C0006,Applied,Completed,2025-01-18
+C0006,Screening,Completed,2025-01-22
+C0006,Technical Interview,Completed,2025-01-26
+C0006,HR Interview,Completed,2025-01-30
+C0006,Offer Sent,Completed,2025-02-03
+C0007,Applied,Completed,2025-01-18
+C0007,Screening,Completed,2025-01-22
+C0007,Technical Interview,Completed,2025-01-26
+C0007,HR Interview,Completed,2025-01-30
+C0007,Offer Sent,Completed,2025-02-03
+C0008,Applied,Completed,2025-01-21
+C0008,Screening,Completed,2025-01-25
+C0008,Technical Interview,Completed,2025-01-29
+C0008,HR Interview,Completed,2025-02-02
+C0009,Applied,Completed,2025-01-24
+C0009,Screening,Completed,2025-01-28
+C0010,Applied,Completed,2025-01-24
+C0011,Applied,Completed,2025-01-28
+C0011,Screening,Completed,2025-02-01
+C0011,Technical Interview,Completed,2025-02-05
+C0011,HR Interview,Completed,2025-02-09
+C0011,Offer Sent,Completed,2025-02-13
+C0011,Joined,Completed,2025-02-17
+C0012,Applied,Completed,2025-01-31
+C0012,Screening,Completed,2025-02-04
+C0012,Technical Interview,Completed,2025-02-08
+C0012,HR Interview,Completed,2025-02-12
+C0012,Offer Sent,Completed,2025-02-16
+C0012,Joined,Completed,2025-02-20
+C0013,Applied,Completed,2025-01-31
+C0013,Screening,Completed,2025-02-04
+C0013,Technical Interview,Completed,2025-02-08
+C0013,HR Interview,Completed,2025-02-12
+C0013,Offer Sent,Completed,2025-02-16
+C0013,Joined,Completed,2025-02-20
+C0014,Applied,Completed,2025-02-03
+C0014,Screening,Completed,2025-02-07
+C0014,Technical Interview,Completed,2025-02-11
+C0014,HR Interview,Completed,2025-02-15
+C0014,Offer Sent,Completed,2025-02-19
+C0014,Joined,Completed,2025-02-23
+C0015,Applied,Completed,2025-02-06
+C0015,Screening,Completed,2025-02-10
+C0015,Technical Interview,Completed,2025-02-14
+C0015,HR Interview,Completed,2025-02-18
+C0015,Offer Sent,Completed,2025-02-22
+C0015,Joined,Completed,2025-02-26
+C0016,Applied,Completed,2025-02-06
+C0016,Screening,Completed,2025-02-10
+C0016,Technical Interview,Completed,2025-02-14
+C0016,HR Interview,Completed,2025-02-18
+C0016,Offer Sent,Completed,2025-02-22
+C0017,Applied,Completed,2025-02-09
+C0017,Screening,Completed,2025-02-13
+C0017,Technical Interview,Completed,2025-02-17
+C0017,HR Interview,Completed,2025-02-21
+C0017,Offer Sent,Completed,2025-02-25
+C0018,Applied,Completed,2025-02-12
+C0018,Screening,Completed,2025-02-16
+C0018,Technical Interview,Completed,2025-02-20
+C0018,HR Interview,Completed,2025-02-24
+C0019,Applied,Completed,2025-02-12
+C0019,Screening,Completed,2025-02-16
+C0020,Applied,Completed,2025-02-15
+C0021,Applied,Completed,2025-02-19
+C0021,Screening,Completed,2025-02-23
+C0021,Technical Interview,Completed,2025-02-27
+C0021,HR Interview,Completed,2025-03-03
+C0021,Offer Sent,Completed,2025-03-07
+C0021,Joined,Completed,2025-03-11
+C0022,Applied,Completed,2025-02-19
+C0022,Screening,Completed,2025-02-23
+C0022,Technical Interview,Completed,2025-02-27
+C0022,HR Interview,Completed,2025-03-03
+C0022,Offer Sent,Completed,2025-03-07
+C0022,Joined,Completed,2025-03-11
+C0023,Applied,Completed,2025-02-22
+C0023,Screening,Completed,2025-02-26
+C0023,Technical Interview,Completed,2025-03-02
+C0023,HR Interview,Completed,2025-03-06
+C0023,Offer Sent,Completed,2025-03-10
+C0023,Joined,Completed,2025-03-14
+C0024,Applied,Completed,2025-02-25
+C0024,Screening,Completed,2025-03-01
+C0024,Technical Interview,Completed,2025-03-05
+C0024,HR Interview,Completed,2025-03-09
+C0024,Offer Sent,Completed,2025-03-13
+C0024,Joined,Completed,2025-03-17
+C0025,Applied,Completed,2025-02-25
+C0025,Screening,Completed,2025-03-01
+C0025,Technical Interview,Completed,2025-03-05
+C0025,HR Interview,Completed,2025-03-09
+C0025,Offer Sent,Completed,2025-03-13
+C0025,Joined,Completed,2025-03-17
+C0026,Applied,Completed,2025-02-28
+C0026,Screening,Completed,2025-03-04
+C0026,Technical Interview,Completed,2025-03-08
+C0026,HR Interview,Completed,2025-03-12
+C0026,Offer Sent,Completed,2025-03-16
+C0027,Applied,Completed,2025-03-03
+C0027,Screening,Completed,2025-03-07
+C0027,Technical Interview,Completed,2025-03-11
+C0027,HR Interview,Completed,2025-03-15
+C0027,Offer Sent,Completed,2025-03-19
+C0028,Applied,Completed,2025-03-03
+C0028,Screening,Completed,2025-03-07
+C0028,Technical Interview,Completed,2025-03-11
+C0028,HR Interview,Completed,2025-03-15
+C0029,Applied,Completed,2025-03-06
+C0029,Screening,Completed,2025-03-10
+C0030,Applied,Completed,2025-03-09
+C0031,Applied,Completed,2025-03-10
+C0031,Screening,Completed,2025-03-14
+C0031,Technical Interview,Completed,2025-03-18
+C0031,HR Interview,Completed,2025-03-22
+C0031,Offer Sent,Completed,2025-03-26
+C0031,Joined,Completed,2025-03-30
+C0032,Applied,Completed,2025-03-13
+C0032,Screening,Completed,2025-03-17
+C0032,Technical Interview,Completed,2025-03-21
+C0032,HR Interview,Completed,2025-03-25
+C0032,Offer Sent,Completed,2025-03-29
+C0032,Joined,Completed,2025-04-02
+C0033,Applied,Completed,2025-03-16
+C0033,Screening,Completed,2025-03-20
+C0033,Technical Interview,Completed,2025-03-24
+C0033,HR Interview,Completed,2025-03-28
+C0033,Offer Sent,Completed,2025-04-01
+C0033,Joined,Completed,2025-04-05
+C0034,Applied,Completed,2025-03-16
+C0034,Screening,Completed,2025-03-20
+C0034,Technical Interview,Completed,2025-03-24
+C0034,HR Interview,Completed,2025-03-28
+C0034,Offer Sent,Completed,2025-04-01
+C0034,Joined,Completed,2025-04-05
+C0035,Applied,Completed,2025-03-19
+C0035,Screening,Completed,2025-03-23
+C0035,Technical Interview,Completed,2025-03-27
+C0035,HR Interview,Completed,2025-03-31
+C0035,Offer Sent,Completed,2025-04-04
+C0035,Joined,Completed,2025-04-08
+C0036,Applied,Completed,2025-03-22
+C0036,Screening,Completed,2025-03-26
+C0036,Technical Interview,Completed,2025-03-30
+C0036,HR Interview,Completed,2025-04-03
+C0036,Offer Sent,Completed,2025-04-07
+C0037,Applied,Completed,2025-03-22
+C0037,Screening,Completed,2025-03-26
+C0037,Technical Interview,Completed,2025-03-30
+C0037,HR Interview,Completed,2025-04-03
+C0037,Offer Sent,Completed,2025-04-07
+C0038,Applied,Completed,2025-03-25
+C0038,Screening,Completed,2025-03-29
+C0038,Technical Interview,Completed,2025-04-02
+C0038,HR Interview,Completed,2025-04-06
+C0039,Applied,Completed,2025-03-28
+C0039,Screening,Completed,2025-04-01
+C0040,Applied,Completed,2025-03-28
+C0041,Applied,Completed,2025-04-01
+C0041,Screening,Completed,2025-04-05
+C0041,Technical Interview,Completed,2025-04-09
+C0041,HR Interview,Completed,2025-04-13
+C0041,Offer Sent,Completed,2025-04-17
+C0041,Joined,Completed,2025-04-21
+C0042,Applied,Completed,2025-04-04
+C0042,Screening,Completed,2025-04-08
+C0042,Technical Interview,Completed,2025-04-12
+C0042,HR Interview,Completed,2025-04-16
+C0042,Offer Sent,Completed,2025-04-20
+C0042,Joined,Completed,2025-04-24
+C0043,Applied,Completed,2025-04-04
+C0043,Screening,Completed,2025-04-08
+C0043,Technical Interview,Completed,2025-04-12
+C0043,HR Interview,Completed,2025-04-16
+C0043,Offer Sent,Completed,2025-04-20
+C0043,Joined,Completed,2025-04-24
+C0044,Applied,Completed,2025-04-07
+C0044,Screening,Completed,2025-04-11
+C0044,Technical Interview,Completed,2025-04-15
+C0044,HR Interview,Completed,2025-04-19
+C0044,Offer Sent,Completed,2025-04-23
+C0044,Joined,Completed,2025-04-27
+C0045,Applied,Completed,2025-04-10
+C0045,Screening,Completed,2025-04-14
+C0045,Technical Interview,Completed,2025-04-18
+C0045,HR Interview,Completed,2025-04-22
+C0045,Offer Sent,Completed,2025-04-26
+C0045,Joined,Completed,2025-04-30
+C0046,Applied,Completed,2025-04-10
+C0046,Screening,Completed,2025-04-14
+C0046,Technical Interview,Completed,2025-04-18
+C0046,HR Interview,Completed,2025-04-22
+C0046,Offer Sent,Completed,2025-04-26
+C0047,Applied,Completed,2025-04-13
+C0047,Screening,Completed,2025-04-17
+C0047,Technical Interview,Completed,2025-04-21
+C0047,HR Interview,Completed,2025-04-25
+C0047,Offer Sent,Completed,2025-04-29
+C0048,Applied,Completed,2025-04-16
+C0048,Screening,Completed,2025-04-20
+C0048,Technical Interview,Completed,2025-04-24
+C0048,HR Interview,Completed,2025-04-28
+C0049,Applied,Completed,2025-04-16
+C0049,Screening,Completed,2025-04-20
+C0050,Applied,Completed,2025-04-19
+C0051,Applied,Completed,2025-04-23
+C0051,Screening,Completed,2025-04-27
+C0051,Technical Interview,Completed,2025-05-01
+C0051,HR Interview,Completed,2025-05-05
+C0051,Offer Sent,Completed,2025-05-09
+C0051,Joined,Completed,2025-05-13
+C0052,Applied,Completed,2025-04-23
+C0052,Screening,Completed,2025-04-27
+C0052,Technical Interview,Completed,2025-05-01
+C0052,HR Interview,Completed,2025-05-05
+C0052,Offer Sent,Completed,2025-05-09
+C0052,Joined,Completed,2025-05-13
+C0053,Applied,Completed,2025-04-26
+C0053,Screening,Completed,2025-04-30
+C0053,Technical Interview,Completed,2025-05-04
+C0053,HR Interview,Completed,2025-05-08
+C0053,Offer Sent,Completed,2025-05-12
+C0053,Joined,Completed,2025-05-16
+C0054,Applied,Completed,2025-04-29
+C0054,Screening,Completed,2025-05-03
+C0054,Technical Interview,Completed,2025-05-07
+C0054,HR Interview,Completed,2025-05-11
+C0054,Offer Sent,Completed,2025-05-15
+C0054,Joined,Completed,2025-05-19
+C0055,Applied,Completed,2025-04-29
+C0055,Screening,Completed,2025-05-03
+C0055,Technical Interview,Completed,2025-05-07
+C0055,HR Interview,Completed,2025-05-11
+C0055,Offer Sent,Completed,2025-05-15
+C0055,Joined,Completed,2025-05-19
+C0056,Applied,Completed,2025-05-02
+C0056,Screening,Completed,2025-05-06
+C0056,Technical Interview,Completed,2025-05-10
+C0056,HR Interview,Completed,2025-05-14
+C0056,Offer Sent,Completed,2025-05-18
+C0057,Applied,Completed,2025-05-05
+C0057,Screening,Completed,2025-05-09
+C0057,Technical Interview,Completed,2025-05-13
+C0057,HR Interview,Completed,2025-05-17
+C0057,Offer Sent,Completed,2025-05-21
+C0058,Applied,Completed,2025-05-05
+C0058,Screening,Completed,2025-05-09
+C0058,Technical Interview,Completed,2025-05-13
+C0058,HR Interview,Completed,2025-05-17
+C0059,Applied,Completed,2025-05-08
+C0059,Screening,Completed,2025-05-12
+C0060,Applied,Completed,2025-05-11
+C0061,Applied,Completed,2025-05-12
+C0061,Screening,Completed,2025-05-16
+C0061,Technical Interview,Completed,2025-05-20
+C0061,HR Interview,Completed,2025-05-24
+C0061,Offer Sent,Completed,2025-05-28
+C0061,Joined,Completed,2025-06-01
+C0062,Applied,Completed,2025-05-15
+C0062,Screening,Completed,2025-05-19
+C0062,Technical Interview,Completed,2025-05-23
+C0062,HR Interview,Completed,2025-05-27
+C0062,Offer Sent,Completed,2025-05-31
+C0062,Joined,Completed,2025-06-04
+C0063,Applied,Completed,2025-05-18
+C0063,Screening,Completed,2025-05-22
+C0063,Technical Interview,Completed,2025-05-26
+C0063,HR Interview,Completed,2025-05-30
+C0063,Offer Sent,Completed,2025-06-03
+C0063,Joined,Completed,2025-06-07
+C0064,Applied,Completed,2025-05-18
+C0064,Screening,Completed,2025-05-22
+C0064,Technical Interview,Completed,2025-05-26
+C0064,HR Interview,Completed,2025-05-30
+C0064,Offer Sent,Completed,2025-06-03
+C0064,Joined,Completed,2025-06-07
+C0065,Applied,Completed,2025-05-21
+C0065,Screening,Completed,2025-05-25
+C0065,Technical Interview,Completed,2025-05-29
+C0065,HR Interview,Completed,2025-06-02
+C0065,Offer Sent,Completed,2025-06-06
+C0065,Joined,Completed,2025-06-10
+C0066,Applied,Completed,2025-05-24
+C0066,Screening,Completed,2025-05-28
+C0066,Technical Interview,Completed,2025-06-01
+C0066,HR Interview,Completed,2025-06-05
+C0066,Offer Sent,Completed,2025-06-09
+C0067,Applied,Completed,2025-05-24
+C0067,Screening,Completed,2025-05-28
+C0067,Technical Interview,Completed,2025-06-01
+C0067,HR Interview,Completed,2025-06-05
+C0067,Offer Sent,Completed,2025-06-09
+C0068,Applied,Completed,2025-05-27
+C0068,Screening,Completed,2025-05-31
+C0068,Technical Interview,Completed,2025-06-04
+C0068,HR Interview,Completed,2025-06-08
+C0069,Applied,Completed,2025-05-30
+C0069,Screening,Completed,2025-06-03
+C0070,Applied,Completed,2025-05-30
+C0071,Applied,Completed,2025-06-03
+C0071,Screening,Completed,2025-06-07
+C0071,Technical Interview,Completed,2025-06-11
+C0071,HR Interview,Completed,2025-06-15
+C0071,Offer Sent,Completed,2025-06-19
+C0071,Joined,Completed,2025-06-23
+C0072,Applied,Completed,2025-06-06
+C0072,Screening,Completed,2025-06-10
+C0072,Technical Interview,Completed,2025-06-14
+C0072,HR Interview,Completed,2025-06-18
+C0072,Offer Sent,Completed,2025-06-22
+C0072,Joined,Completed,2025-06-26
+C0073,Applied,Completed,2025-06-06
+C0073,Screening,Completed,2025-06-10
+C0073,Technical Interview,Completed,2025-06-14
+C0073,HR Interview,Completed,2025-06-18
+C0073,Offer Sent,Completed,2025-06-22
+C0073,Joined,Completed,2025-06-26
+C0074,Applied,Completed,2025-06-09
+C0074,Screening,Completed,2025-06-13
+C0074,Technical Interview,Completed,2025-06-17
+C0074,HR Interview,Completed,2025-06-21
+C0074,Offer Sent,Completed,2025-06-25
+C0074,Joined,Completed,2025-06-29
+C0075,Applied,Completed,2025-06-12
+C0075,Screening,Completed,2025-06-16
+C0075,Technical Interview,Completed,2025-06-20
+C0075,HR Interview,Completed,2025-06-24
+C0075,Offer Sent,Completed,2025-06-28
+C0075,Joined,Completed,2025-07-02
+C0076,Applied,Completed,2025-06-12
+C0076,Screening,Completed,2025-06-16
+C0076,Technical Interview,Completed,2025-06-20
+C0076,HR Interview,Completed,2025-06-24
+C0076,Offer Sent,Completed,2025-06-28
+C0077,Applied,Completed,2025-06-15
+C0077,Screening,Completed,2025-06-19
+C0077,Technical Interview,Completed,2025-06-23
+C0077,HR Interview,Completed,2025-06-27
+C0077,Offer Sent,Completed,2025-07-01
+C0078,Applied,Completed,2025-06-18
+C0078,Screening,Completed,2025-06-22
+C0078,Technical Interview,Completed,2025-06-26
+C0078,HR Interview,Completed,2025-06-30
+C0079,Applied,Completed,2025-06-18
+C0079,Screening,Completed,2025-06-22
+C0080,Applied,Completed,2025-06-21
+C0081,Applied,Completed,2025-06-25
+C0081,Screening,Completed,2025-06-29
+C0081,Technical Interview,Completed,2025-07-03
+C0081,HR Interview,Completed,2025-07-07
+C0081,Offer Sent,Completed,2025-07-11
+C0081,Joined,Completed,2025-07-15
+C0082,Applied,Completed,2025-06-25
+C0082,Screening,Completed,2025-06-29
+C0082,Technical Interview,Completed,2025-07-03
+C0082,HR Interview,Completed,2025-07-07
+C0082,Offer Sent,Completed,2025-07-11
+C0082,Joined,Completed,2025-07-15
+C0083,Applied,Completed,2025-06-28
+C0083,Screening,Completed,2025-07-02
+C0083,Technical Interview,Completed,2025-07-06
+C0083,HR Interview,Completed,2025-07-10
+C0083,Offer Sent,Completed,2025-07-14
+C0083,Joined,Completed,2025-07-18
+C0084,Applied,Completed,2025-07-01
+C0084,Screening,Completed,2025-07-05
+C0084,Technical Interview,Completed,2025-07-09
+C0084,HR Interview,Completed,2025-07-13
+C0084,Offer Sent,Completed,2025-07-17
+C0084,Joined,Completed,2025-07-21
+C0085,Applied,Completed,2025-07-01
+C0085,Screening,Completed,2025-07-05
+C0085,Technical Interview,Completed,2025-07-09
+C0085,HR Interview,Completed,2025-07-13
+C0085,Offer Sent,Completed,2025-07-17
+C0085,Joined,Completed,2025-07-21
+C0086,Applied,Completed,2025-07-04
+C0086,Screening,Completed,2025-07-08
+C0086,Technical Interview,Completed,2025-07-12
+C0086,HR Interview,Completed,2025-07-16
+C0086,Offer Sent,Completed,2025-07-20
+C0087,Applied,Completed,2025-07-07
+C0087,Screening,Completed,2025-07-11
+C0087,Technical Interview,Completed,2025-07-15
+C0087,HR Interview,Completed,2025-07-19
+C0087,Offer Sent,Completed,2025-07-23
+C0088,Applied,Completed,2025-07-07
+C0088,Screening,Completed,2025-07-11
+C0088,Technical Interview,Completed,2025-07-15
+C0088,HR Interview,Completed,2025-07-19
+C0089,Applied,Completed,2025-07-10
+C0089,Screening,Completed,2025-07-14
+C0090,Applied,Completed,2025-07-13
+C0091,Applied,Completed,2025-07-14
+C0091,Screening,Completed,2025-07-18
+C0091,Technical Interview,Completed,2025-07-22
+C0091,HR Interview,Completed,2025-07-26
+C0091,Offer Sent,Completed,2025-07-30
+C0091,Joined,Completed,2025-08-03
+C0092,Applied,Completed,2025-07-17
+C0092,Screening,Completed,2025-07-21
+C0092,Technical Interview,Completed,2025-07-25
+C0092,HR Interview,Completed,2025-07-29
+C0092,Offer Sent,Completed,2025-08-02
+C0092,Joined,Completed,2025-08-06
+C0093,Applied,Completed,2025-07-20
+C0093,Screening,Completed,2025-07-24
+C0093,Technical Interview,Completed,2025-07-28
+C0093,HR Interview,Completed,2025-08-01
+C0093,Offer Sent,Completed,2025-08-05
+C0093,Joined,Completed,2025-08-09
+C0094,Applied,Completed,2025-07-20
+C0094,Screening,Completed,2025-07-24
+C0094,Technical Interview,Completed,2025-07-28
+C0094,HR Interview,Completed,2025-08-01
+C0094,Offer Sent,Completed,2025-08-05
+C0094,Joined,Completed,2025-08-09
+C0095,Applied,Completed,2025-07-23
+C0095,Screening,Completed,2025-07-27
+C0095,Technical Interview,Completed,2025-07-31
+C0095,HR Interview,Completed,2025-08-04
+C0095,Offer Sent,Completed,2025-08-08
+C0095,Joined,Completed,2025-08-12
+C0096,Applied,Completed,2025-07-26
+C0096,Screening,Completed,2025-07-30
+C0096,Technical Interview,Completed,2025-08-03
+C0096,HR Interview,Completed,2025-08-07
+C0096,Offer Sent,Completed,2025-08-11
+C0097,Applied,Completed,2025-07-26
+C0097,Screening,Completed,2025-07-30
+C0097,Technical Interview,Completed,2025-08-03
+C0097,HR Interview,Completed,2025-08-07
+C0097,Offer Sent,Completed,2025-08-11
+C0098,Applied,Completed,2025-07-29
+C0098,Screening,Completed,2025-08-02
+C0098,Technical Interview,Completed,2025-08-06
+C0098,HR Interview,Completed,2025-08-10
+C0099,Applied,Completed,2025-08-01
+C0099,Screening,Completed,2025-08-05
+C0100,Applied,Completed,2025-08-01
