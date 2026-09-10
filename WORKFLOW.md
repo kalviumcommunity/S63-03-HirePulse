@@ -93,3 +93,17 @@ A team member contributing a new feature should:
 9. Address code review feedback.
 10. Merge the Pull Request after approval.
 11. Delete the feature branch.
+
+## 6. Issue and Pull Request Relationship
+
+Each piece of development work should be traceable from the original issue through the feature branch and Pull Request.
+
+For example:
+
+GitHub Issue → Feature Branch → Commits → Pull Request → Review → Merge
+
+Pull Requests should reference the related issue using:
+
+`Closes #[issue-number]`
+
+This provides a clear connection between the requested work, implementation, review, and final delivery.
