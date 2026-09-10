@@ -107,3 +107,14 @@ Pull Requests should reference the related issue using:
 `Closes #[issue-number]`
 
 This provides a clear connection between the requested work, implementation, review, and final delivery.
+
+## 7. Review Checklist
+
+Before requesting approval, contributors should verify:
+
+- The implementation addresses the linked issue
+- Changes are limited to the intended scope
+- Data integrity is maintained
+- Relevant tests have been performed
+- Commit messages follow the required convention
+- The Pull Request clearly explains what changed and why
