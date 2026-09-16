@@ -1,0 +1,3 @@
+id,customer.id,customer.name,customer.email,transaction.amount,transaction.currency,transaction.status
+1,1,Alice,alice@example.com,100,USD,completed
+2,2,Bob,bob@example.com,250,USD,pending

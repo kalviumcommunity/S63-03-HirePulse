@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "customer": {
+      "id": 1,
+      "name": "Alice",
+      "email": "alice@example.com"
+    },
+    "transaction": {
+      "amount": 100,
+      "currency": "USD",
+      "status": "completed"
+    }
+  },
+  {
+    "id": 2,
+    "customer": {
+      "id": 2,
+      "name": "Bob",
+      "email": "bob@example.com"
+    },
+    "transaction": {
+      "amount": 250,
+      "currency": "USD",
+      "status": "pending"
+    }
+  }
+]
