@@ -1,5 +1,382 @@
+# Virtual environment
+.venv/
+
+# Python cache
 __pycache__/
 *.pyc
-.venv/
+
+# Logs
+*.log
 outputs/*.log
+output/*.log
+
+Today 2:05 PM
+Pasted markdown(4).md
+File
+
+Your analytics team has established a professional GitHub workflow. Now you must transition from notebook-based exploration to production-ready Python scripts. Real data pipelines do not run inside Jupyter notebooks - they run as modular, reusable scripts that can be executed from the command line, scheduled in CI/CD systems, and maintained by future team members who will never read your notebook cells.
+
+Your task is to convert a data workflow into a structured Python script that separates concerns across ingestion, processing, and output stages, runs without errors from the command line, and documents each operation clearly. This script becomes the foundation of your data product pipeline.
+
+Getting Started
+
+Create your working branch:
+
+git checkout -b feature/python-workflow-script
+
+
+All work will be committed on this branch. Open a PR to main when all tasks are complete.
+
+Tasks
+Task 1 - Create a Python Script With Separated Concerns
+
+Create a file scripts/data_workflow.py that performs a complete data pipeline from ingestion to output. The script must have at least three functions separating different concerns:
+
+Function 1: Ingest - Read data from a file (CSV or JSON)
+
+def ingest_data(filepath):
+    """Load data from a file and return a Pandas DataFrame."""
+    import pandas as pd
+    df = pd.read_csv(filepath)
+    return df
+
+
+Function 2: Process - Transform the data (cleaning, filtering, calculation)
+
+def process_data(df):
+    """Apply transformations to the dataset."""
+    # Remove duplicates, fill nulls, filter rows, add columns, etc.
+    df = df.drop_duplicates()
+    return df
+
+
+Function 3: Output - Write results to a file or standard output
+
+def output_results(df, output_path):
+    """Save processed data to a file."""
+    df.to_csv(output_path, index=False)
+    print(f"Output saved to {output_path}")
+
+
+Main execution block:
+
+if __name__ == "__main__":
+    data = ingest_data("data/raw/sample.csv")
+    processed = process_data(data)
+    output_results(processed, "output/processed.csv")
+
+
+The script must run from the command line with a single execution:
+
+python scripts/data_workflow.py
+
+Task 2 - Add Inline Comments Explaining Each Function
+
+Add docstrings and inline comments to every function explaining:
+
+What the function does
+What data it expects as input
+What it returns
+Any assumptions or constraints
+
+Example:
+
+def process_data(df):
+    """
+    Transform raw data into analysis-ready format.
+    
+    Input: Pandas DataFrame with raw data
+    Output: Pandas DataFrame with nulls filled, duplicates removed
+    """
+    # Remove exact duplicates (rows where all values are identical)
+    df = df.drop_duplicates()
+    
+    # Fill missing values in numerical columns with median
+    for col in df.select_dtypes(include=['number']).columns:
+        df[col].fillna(df[col].median(), inplace=True)
+    
+    return df
+
+Task 3 - Ensure the Script Runs Without Errors
+
+Test your script from the command line:
+
+cd scripts
+python data_workflow.py
+
+
+The script must complete without errors. If it does error, the error message must clearly indicate what failed and why. Capture a screenshot showing successful execution.
+
+Task 4 - Include Sample Output Confirming Execution
+
+Your script must print output confirming successful execution:
+
+def output_results(df, output_path):
+    """Save processed data and print confirmation."""
+    df.to_csv(output_path, index=False)
+    print(f"✓ Data successfully processed")
+    print(f"✓ Rows processed: {len(df)}")
+    print(f"✓ Output saved to {output_path}")
+
+
+Sample output should look like:
+
+✓ Data successfully processed
+✓ Rows processed: 1200
+✓ Output saved to output/processed.csv
+
+
+Commit this output to the repository as output/sample_run.txt:
+
+python scripts/data_workflow.py > output/sample_run.txt
+git add output/sample_run.txt
+git commit -m "feat: add sample output from workflow execution"
+
+Task 5 - Commit and Document the Workflow
+
+Commit your script with clear messages:
+
+git add scripts/data_workflow.py
+git commit -m "feat: create modular data workflow script
+
+Implements ingestion, processing, and output functions.
+Script is executable from command line and documents each operation.
+Processes sample data and generates analysis-ready output."
+
+git push origin feature/python-workflow-script
+
+
+Create a WORKFLOW.md section documenting:
+
+How to execute the script
+What each function does
+How to modify it for new datasets
+
+undertand the topic and assigment then tell me what i need to do in this assignment on that basis give me prompt for copilot but I have already done some work on that project so on that basis they implemented this assignment on my project on continuation
+
+here is git status result 
+
+phir: Bash
+
+Pasted text(20260917-094734).txt
+Document
+i did git stash then remaining jo command tumne boli phir yeh result show kar raha hai 
+yeh lo screen shot
+
+Perfect. Screenshot se clear hai ki ab situation sahi hai.
+
+Is line ko dekho:
+
+8dcafc9 (HEAD -> feature/dataset-intake-validation, origin/main, main, feature/python-workflow-script)
+
+Iska matlab:
+
+main → commit 8dcafc9 par hai
+feature/python-workflow-script → bhi isi commit par hai
+feature/dataset-intake-validation → bhi isi commit se create hui hai
+
+Yaani:
+
+main
+ └── feature/dataset-intake-validation   ← current branch
+
+Ab jo bhi tum 2.14 ka kaam karoge:
+
+main
+ └── feature/dataset-intake-validation
+      ├── validate_intake.py
+      ├── intake_report.json
+      ├── requirements.txt update
+      └── etc...
+
+Ye sab isi branch ke commits banenge.
+
+Ab next step
+
+Pehle .gitignore thoda improve karo:
+
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+
+# Generated reports
+output/*.json
+
+# Output csv files
 outputs/*.csv
+Check karo kya stage karna hai
+git status
+Sirf assignment wale files add karo
+git add scripts/validate_intake.py
+git add requirements.txt
+git add output/intake_report.json
+git add WORKFLOW.md
+
+Agar output/intake_validation.log assignment requirement hai to:
+
+git add output/intake_validation.log
+Commit
+git commit -m "feat: implement dataset intake validation"
+Push
+git push origin feature/dataset-intake-validation
+Verify
+git log --oneline --decorate -5
+
+Expected:
+
+NEW_COMMIT (HEAD -> feature/dataset-intake-validation)
+8dcafc9 (main, origin/main)
+...
+
+Agar aisa dikhe to 100% confirm ho jayega ki Assignment 2.14 ka sara kaam main se nikli hui nayi branch me hai, purani feature/python-workflow-script branch ke andar nested nahi hai.
+
+तुम्हारा screenshot देखकर अब स्थिति बिल्कुल clear है।
+
+अभी तुम feature/dataset-intake-validation branch पर हो, लेकिन यह branch गलती से main के latest commit (8dcafc9) से बनी है, जिसमें पहले वाली assignment (feature/python-workflow-script) का code already merged है।
+
+सबसे महत्वपूर्ण बात:
+
+git log --oneline --decorate -5
+
+में दिख रहा है:
+
+8dcafc9 (HEAD -> feature/dataset-intake-validation, origin/main, main, feature/python-workflow-script)
+
+मतलब:
+
+main = 8dcafc9
+feature/dataset-intake-validation = 8dcafc9
+feature/python-workflow-script = 8dcafc9
+
+अभी तीनों same commit पर हैं।
+
+इसका मतलब तुम्हारी नई branch main से ही बनी है ✅
+
+अब issue यह है कि working directory में uncommitted changes पड़े हुए हैं:
+
+modified: requirements.txt
+modified: WORKFLOW.md
+modified: .venv/.gitignore
+...
+untracked:
+scripts/validate_intake.py
+output/intake_report.json
+
+ये 2.14 assignment की files हैं।
+
+अब क्या करना है
+1. .gitignore ठीक करो
+
+इसमें ये lines होनी चाहिए:
+
+# Virtual Environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+output/*.log
+
+# Generated reports
+output/*.json
+
+# Generated csv outputs
+outputs/*.csv
+2. Cache remove करो
+git rm -r --cached .venv
+git rm -r --cached src/__pycache__
+git rm -r --cached scripts/__pycache__
+
+अगर error आए तो ignore कर सकते हो।
+
+3. Status check करो
+git status
+
+अब ideally सिर्फ यह दिखना चाहिए:
+
+modified: requirements.txt
+modified: WORKFLOW.md
+
+new file: scripts/validate_intake.py
+new file: output/intake_report.json
+4. Commit
+git add .
+git commit -m "feat: implement dataset intake validation"
+5. Push
+git push -u origin feature/dataset-intake-validation
+6. PR
+
+GitHub पर:
+
+base: main
+compare: feature/dataset-intake-validation
+
+एक और बात:
+
+तुम्हारे screenshot में दिख रहा है:
+
+modified: .venv/.gitignore
+
+यह suspicious है।
+
+मुझे लगता है तुमने project root की .gitignore edit करने की जगह गलती से
+
+.venv/.gitignore
+
+edit कर दी है।
+
+ज़रा यह command चलाओ:
+
+ls -la .gitignore
+ls -la .venv/.gitignore
+
+और screenshot भेज दो।
+
+उससे मैं confirm कर दूँगा कि .gitignore सही जगह edit हुई है या नहीं।
+
+अच्छा, अब screenshot से दिख रहा है कि तुमने:
+
+git rm -r --cached .venv
+git rm -r --cached src/__pycache__
+git rm -r --cached scripts/__pycache__
+
+सफलतापूर्वक चला दिया है। 👍
+
+जो ये दिख रहा है:
+
+deleted: .venv/...
+deleted: src/__pycache__/...
+
+घबराने की जरूरत नहीं है।
+
+यह files computer से delete नहीं हुई हैं।
+
+--cached का मतलब:
+
+Git tracking से हटाओ, disk से नहीं।
+
+अब अगला step:
+
+1. Root .gitignore में ये lines add करो
+# Virtual Environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+output/*.log
+
+# Reports
+output/*.json
