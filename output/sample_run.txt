@@ -1,0 +1,7 @@
+Data workflow sample execution
+==============================
+Command: python scripts/data_workflow.py
+
+✓ Data successfully processed
+✓ Rows processed: 100
+✓ Output saved to: outputs/processed_candidates.csv
