@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-09-17T09:21:45.289592+00:00",
+  "filepath": "C:\\Users\\pc\\S63-03-HirePulse\\data\\candidates.csv",
+  "valid": true,
+  "validation_results": {
+    "file_exists": {
+      "filepath": "C:\\Users\\pc\\S63-03-HirePulse\\data\\candidates.csv",
+      "exists": true,
+      "not_empty": true,
+      "valid": true,
+      "error": null
+    },
+    "file_format": {
+      "format": "csv",
+      "supported": true,
+      "error": null
+    },
+    "encoding": {
+      "encoding": "ascii",
+      "confidence": 1.0,
+      "bytes_sampled": 8395
+    },
+    "schema": {
+      "valid": true,
+      "missing_columns": [],
+      "unexpected_columns": [],
+      "expected_columns": [
+        "applied_date",
+        "candidate_id",
+        "department",
+        "email",
+        "full_name",
+        "phone"
+      ],
+      "actual_columns": [
+        "candidate_id",
+        "full_name",
+        "email",
+        "phone",
+        "department",
+        "applied_date"
+      ]
+    }
+  },
+  "dataset_statistics": {
+    "rows": 100,
+    "columns": 6,
+    "file_size_mb": 0.008006,
+    "bytes": 8395
+  },
+  "errors": []
+}
