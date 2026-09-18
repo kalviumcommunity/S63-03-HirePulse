@@ -1,0 +1,34 @@
+dataset,column_name,data_type,nullable,key,description,business_purpose,allowed_values_or_format,source_or_derived,relationship
+candidates,candidate_id,string,no,primary key,Stable identifier for a candidate,Joins all candidate lifecycle tables,C#### source,data/candidates.csv,Referenced by all recruitment tables
+candidates,full_name,string,no,,Candidate's full display name,Identifies the applicant,Text source,data/candidates.csv,
+candidates,email,string,no,,Candidate email address,Applicant communication,Email format source,data/candidates.csv,
+candidates,phone,string,no,,Candidate phone number,Applicant communication,Phone format source,data/candidates.csv,
+candidates,department,string,no,,Department for the role applied for,Supports hiring demand and funnel analysis,Engineering; Data Analytics; Product; Marketing; Sales; Human Resources; Finance; Operations source,data/candidates.csv,
+candidates,applied_date,date,no,,Date the candidate applied,Start of the recruitment timeline,YYYY-MM-DD source,data/candidates.csv,Used with joining_date to calculate hiring_duration_days
+recruitment_stages,candidate_id,string,no,foreign key,Candidate associated with the stage event,Connects funnel events to candidate master,C#### source,data/recruitment_stages.csv,References candidates.candidate_id
+recruitment_stages,stage_name,string,no,,Recruitment stage represented by the event,Measures funnel progression,Applied; Screening; Technical Interview; HR Interview; Offer Sent; Joined source,data/recruitment_stages.csv,
+recruitment_stages,status,string,no,,Status of the candidate at the stage,Shows stage completion or drop-off,Completed; In Progress; Dropped; Pending source,data/recruitment_stages.csv,
+recruitment_stages,stage_date,date,no,,Date of the stage event,Orders the candidate journey,YYYY-MM-DD source,data/recruitment_stages.csv,
+interviews,candidate_id,string,no,foreign key,Candidate associated with the interview,Connects evaluation to the candidate,C#### source,data/interviews.csv,References candidates.candidate_id
+interviews,interviewer_name,string,no,,Person who conducted the interview,Supports interviewer workload and evaluation analysis,Text source,data/interviews.csv,
+interviews,round_name,string,no,,Interview round or type,Segments interview outcomes,Text; current sample uses Technical Interview source,data/interviews.csv,
+interviews,score,numeric,no,,Numeric interview assessment score,Supports evaluation and score analysis,Numeric; current sample range 65-100 source,data/interviews.csv,
+interviews,feedback,string,no,,Qualitative interviewer comments,Provides context for the score,Free text source,data/interviews.csv,
+interviews,result,string,no,,Interview decision or outcome,Measures interview pass-through,Text; current sample uses Pass source,data/interviews.csv,
+interviews,interview_date,date,no,,Date the interview occurred,Tracks interview timing,YYYY-MM-DD source,data/interviews.csv,
+offers,candidate_id,string,no,foreign key,Candidate receiving the offer,Connects offer activity to the candidate,C#### source,data/offers.csv,References candidates.candidate_id
+offers,offer_date,date,no,,Date the offer was issued,Measures offer timing and cycle time,YYYY-MM-DD source,data/offers.csv,
+offers,salary,numeric,no,,Salary proposed in the offer,Supports compensation analysis,Non-negative numeric amount source,data/offers.csv,
+offers,accepted,boolean,no,,Whether the candidate accepted the offer,Measures offer acceptance,True or False source,data/offers.csv,
+onboarding,candidate_id,string,no,foreign key,Candidate entering onboarding,Connects joining activity to the candidate,C#### source,data/onboarding.csv,References candidates.candidate_id
+onboarding,joining_date,date,no,,Date the candidate joined,Marks the observed joining event,YYYY-MM-DD source,data/onboarding.csv,Combined with recruitment_stages.stage_date into derived joined_date
+onboarding,document_completion,numeric,no,,Percentage or score of onboarding documents completed,Measures onboarding readiness,Current sample values 85-100; document unit should be confirmed source,data/onboarding.csv,
+onboarding,onboarding_status,string,no,,Current onboarding state,Tracks onboarding completion,Not Started; In Progress; Completed source,data/onboarding.csv,
+processed_candidates,application_month,integer,no,,Month extracted from applied_date,Supports monthly funnel grouping,1-12 derived,outputs/processed_candidates.csv,Derived from candidates.applied_date
+processed_candidates,application_year,integer,no,,Year extracted from applied_date,Supports yearly funnel grouping,Four-digit year derived,outputs/processed_candidates.csv,Derived from candidates.applied_date
+processed_candidates,offer_date,date,yes,,Offer date carried into the candidate-level output,Supports candidate-level offer analysis,YYYY-MM-DD derived,outputs/processed_candidates.csv,From offers.offer_date
+processed_candidates,accepted,boolean,yes,,Offer acceptance value carried into the candidate-level output,Supports candidate-level offer analysis,True or False derived,outputs/processed_candidates.csv,From offers.accepted
+processed_candidates,joined_date,date,yes,,Best available joining date from onboarding or Joined stage,Marks candidate joining,YYYY-MM-DD derived,outputs/processed_candidates.csv,Coalesces onboarding.joining_date and Joined recruitment_stages.stage_date
+processed_candidates,hiring_duration_days,numeric,yes,,Elapsed days from application to joined_date,Measures time to hire,Non-negative days when joined derived,outputs/processed_candidates.csv,joined_date minus candidates.applied_date
+processed_candidates,offer_acceptance_flag,integer,no,,Binary indicator that an offer was accepted,Supports acceptance-rate calculations,0 or 1 derived,outputs/processed_candidates.csv,From offers.accepted with missing treated as false
+processed_candidates,joined_flag,integer,no,,Binary indicator that a joined date exists,Supports joining-rate calculations,0 or 1 derived,outputs/processed_candidates.csv,From joined_date presence
