@@ -1,0 +1,6 @@
+candidate_id,full_name,email,phone,department,applied_date
+C0001,Aisha Adams,aisha.adams1@example.com,+1-555-100-1000,Data Analytics,2025-01-06
+C0003,Carla Green,carla.green3@example.com,,Data Analytics,2025-01-10
+C0006,Farhan Khan,farhan.khan6@example.com,+1-555-100-1005,Data Analytics,2025-01-10
+C0007,Gita Singh,gita.singh7@example.com,+1-555-100-1006,Engineering,2025-01-10
+C0008,Hari Patel,hari.patel8@example.com,+1-555-100-1007,Data Analytics,2025-01-20
