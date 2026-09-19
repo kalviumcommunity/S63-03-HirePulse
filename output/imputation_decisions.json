@@ -1,0 +1,46 @@
+{
+  "summary": {
+    "rows_before": 8,
+    "rows_after": 5,
+    "rows_removed": 3,
+    "nulls_before": 8,
+    "nulls_after": 1,
+    "null_reduction": 7
+  },
+  "candidate_id": {
+    "column_type": "critical_identifier",
+    "null_count_before": 1,
+    "strategy": "drop_rows",
+    "business_reasoning": "candidate_id is the primary identifier used to trace candidate records. Missing identifiers cannot be safely inferred or fabricated.",
+    "risk_assessment": "Low - incomplete records are removed rather than assigning an incorrect identifier."
+  },
+  "email": {
+    "column_type": "contact_identifier",
+    "null_count_before": 2,
+    "strategy": "drop_rows",
+    "business_reasoning": "Email is used as a candidate contact field. A missing email cannot be safely invented, so affected records are excluded from the contactable dataset.",
+    "risk_assessment": "Low - only records with missing email are removed."
+  },
+  "department": {
+    "column_type": "categorical",
+    "null_count_before": 2,
+    "strategy": "mode_imputation",
+    "value_used": "Data Analytics",
+    "business_reasoning": "Department is categorical. The most common department provides a simple representative value without creating a new category.",
+    "risk_assessment": "Medium - the missing candidate may belong to a different department."
+  },
+  "applied_date": {
+    "column_type": "time_series",
+    "null_count_before": 2,
+    "strategy": "forward_fill",
+    "business_reasoning": "The records are ordered by application date. Forward fill preserves temporal continuity when a date is missing between known observations.",
+    "risk_assessment": "Medium - assumes the previous known date is an acceptable value for the missing observation."
+  },
+  "phone": {
+    "column_type": "contact_information",
+    "null_count_before": 1,
+    "strategy": "leave_null",
+    "business_reasoning": "A missing phone number should not be fabricated. There is insufficient information to infer the candidate's real phone number.",
+    "risk_assessment": "Low - the missing value remains visible and documented instead of introducing false data."
+  }
+}
