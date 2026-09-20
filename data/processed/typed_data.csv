@@ -1,0 +1,5 @@
+user_id,transaction_date,signup_date,amount,revenue,is_active,is_premium
+1001,2026-01-15,2025-11-02,1250.5,1100.0,True,False
+1002,2026-02-20,2025-12-14,875.0,875.0,False,True
+1003,2026-03-08,2026-01-05,2400.75,2150.25,True,True
+1004,2026-04-12,2026-02-19,99.99,0.0,False,False
