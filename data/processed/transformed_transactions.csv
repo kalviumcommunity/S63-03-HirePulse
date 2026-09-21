@@ -1,0 +1,5 @@
+customer_id,transaction_date,amount,day_of_week,hour,week_num,month,quarter,days_since_transaction
+101,2025-01-15 14:30:45,1200,Wednesday,14,3,1,1,614
+102,2025-01-16 09:15:20,850,Thursday,9,3,1,1,613
+103,2025-01-18 20:45:10,1500,Saturday,20,3,1,1,611
+104,2025-01-22 11:10:00,2200,Wednesday,11,4,1,1,607
