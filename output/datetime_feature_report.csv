@@ -1,0 +1,7 @@
+feature,dtype
+day_of_week,object
+hour,int32
+week_num,UInt32
+month,int32
+quarter,int32
+days_since_transaction,int64
