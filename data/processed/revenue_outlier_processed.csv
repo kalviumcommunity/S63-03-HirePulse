@@ -1,0 +1,9 @@
+customer_id,revenue,age,revenue_zscore,revenue_z_outlier,is_outlier_iqr,revenue_capped,is_outlier,age_outlier
+101,1200,25,0.38117143499901496,False,False,1200,0,False
+102,1500,31,0.37935091471245247,False,False,1500,0,False
+103,1800,28,0.37753039442589004,False,False,1800,0,False
+104,2100,34,0.37570987413932755,False,False,2100,0,False
+105,500000,29,2.6457469614588343,False,True,2950,1,False
+106,1700,150,0.37813723452141085,False,False,1700,0,True
+107,1600,27,0.37874407461693166,False,False,1600,0,False
+108,2200,30,0.37510303404380674,False,False,2200,0,False
