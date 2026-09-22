@@ -1,0 +1,8 @@
+customer_id,customer_name,birth_date,price,email,phone,start_date,end_date,age
+C001,Ava Martin,1990-05-14,125.50,ava.martin@example.com,5551234567,2026-01-10,2026-01-15,36
+C002,Liam Carter,2050-02-20,80.00,liam.carter@example.com,5552345678,2026-02-01,2026-02-05,0
+C003,Noah Wilson,1985-11-03,-10.00,noah.wilson@example.com,5553456789,2026-03-01,2026-03-05,40
+,Emma Davis,1992-07-22,45.00,emma.davis@example.com,5554567890,2026-04-01,2026-04-05,33
+C005,Olivia Brown,1988-09-30,210.00,olivia.brown.example.com,5555678901,2026-05-01,2026-05-05,37
+C006,Elijah Moore,1995-01-18,65.00,elijah.moore@example.com,555-678-9012,2026-06-01,2026-06-05,31
+C007,Sophia Taylor,1982-12-09,95.00,sophia.taylor@example.com,5557890123,2026-07-10,2026-07-05,43

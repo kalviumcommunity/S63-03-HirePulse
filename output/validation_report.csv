@@ -1,0 +1,9 @@
+rule_name,passed_count,failed_count
+valid_age,7,0
+valid_price,6,1
+valid_birth_date,6,1
+valid_customer_id,6,1
+valid_email,7,0
+valid_email_format,6,1
+valid_phone,6,1
+valid_date_order,6,1

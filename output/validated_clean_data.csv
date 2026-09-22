@@ -1,0 +1,2 @@
+customer_id,customer_name,birth_date,price,email,phone,start_date,end_date,age,valid_age,valid_price,valid_birth_date,valid_customer_id,valid_email,valid_email_format,valid_phone,valid_date_order,passes_all_checks
+C001,Ava Martin,1990-05-14,125.5,ava.martin@example.com,5551234567,2026-01-10,2026-01-15,36,True,True,True,True,True,True,True,True,True
