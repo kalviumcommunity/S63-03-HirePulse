@@ -1,0 +1,8 @@
+validation_name,status,details
+revenue_column_exists,PASS,Revenue column is present
+revenue_values_positive,PASS,All revenue values are greater than zero
+no_missing_values,PASS,No missing values exist in required columns
+histogram_generated,PASS,Revenue histogram file exists
+kde_generated,PASS,Revenue KDE file exists
+skewness_calculated,PASS,Skewness is a finite numeric value
+kurtosis_calculated,PASS,Kurtosis is a finite numeric value

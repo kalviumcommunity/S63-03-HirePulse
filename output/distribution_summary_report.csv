@@ -1,0 +1,4 @@
+customer_segment,count,mean_revenue,median_revenue,std_revenue
+Enterprise,40,285432.5,22500.0,614399.5079155932
+Retail,50,532.0,490.0,275.68282574031207
+SMB,30,2045.0,1875.0,688.4953609640123
