@@ -1,0 +1,47 @@
+SQL JOINS AND MULTI-TABLE ANALYSIS
+==================================================
+
+SOURCE ROW COUNTS
+Customers: 5
+Orders: 4
+Customer features: 12
+
+TASK 1 - LEFT JOIN VALIDATION
+Raw LEFT JOIN rows: 6
+Grouped customer rows: 5
+Multiplication factor: 1.20x
+Explanation: Customer C001 has two orders, so the raw LEFT JOIN produces two rows for C001. Customers without orders are still preserved with NULL order values.
+
+TASK 2 - UNMATCHED KEYS
+Customers without orders: 3 (60.0%)
+Orders without matching customer: 1 (25.0%)
+
+TASK 3 - JOIN TYPE COMPARISON
+INNER JOIN rows: 3
+LEFT JOIN rows: 6
+FULL OUTER JOIN rows: 7
+INNER JOIN keeps only matched customer-order pairs. LEFT JOIN preserves every customer. FULL OUTER JOIN preserves both matched records and the orphaned order.
+
+TASK 4 - MULTI-TABLE JOIN
+3-table join rows: 6
+Customer feature duplicate keys: 0
+The third table is customer_features because the repository does not contain order_items or products tables. It is joined on the unique customer_id key to enrich customer-order records without creating unexpected multiplication.
+
+TASK 5 - VALIDATION CHECKS
+Customer row count: PASS
+Order row count: PASS
+LEFT JOIN raw row count: PASS
+LEFT JOIN grouped row count: PASS
+INNER JOIN row count: PASS
+FULL OUTER JOIN row count: PASS
+Unmatched customer count: PASS
+Orphaned order count: PASS
+Customer feature keys unique: PASS
+3-table join row count preserved: PASS
+
+JOIN DECISIONS
+1. customers LEFT JOIN orders: preserves all customers for customer-level reporting.
+2. orders LEFT JOIN customers with IS NULL: identifies orphaned orders.
+3. customers LEFT JOIN customer_features: adds customer behavior metrics while preserving customer-order rows.
+4. INNER JOIN is used for matched customer-order analysis.
+5. SQLite FULL OUTER JOIN is emulated using LEFT JOIN + UNION ALL.
