@@ -1,0 +1,7 @@
+customer_id,customer_name,city,order_id,order_amount
+C001,Alice Johnson,New York,O1001,125.5
+C001,Alice Johnson,New York,O1002,89.99
+C002,Ben Carter,Chicago,O1003,240.0
+C003,Clara Davis,Boston,,
+C004,Daniel Evans,Seattle,,
+C005,Elena Garcia,Austin,,
