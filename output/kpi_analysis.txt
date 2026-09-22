@@ -1,0 +1,64 @@
+KPI DEFINITION & BUSINESS METRIC DESIGN
+======================================================================
+
+DATASET
+----------------------------------------------------------------------
+Source: C:\Users\Hp\Desktop\S63-03-HirePulse\data\raw\customer_segment_data.csv
+Rows: 150
+Unique customers: 150
+
+CURRENT KPI VALUES
+----------------------------------------------------------------------
+Average Revenue per Customer: $112,916.67
+Customer Churn Rate: 11.3%
+Enterprise Revenue per Customer: $242,500.00
+SMB Revenue per Customer: $79,000.00
+Startup Revenue per Customer: $17,250.00
+Enterprise Revenue Share: 71.6%
+
+TARGET VALIDATION
+----------------------------------------------------------------------
+Average Revenue per Customer: $112,916.67 | Target: $80,000.00 - $90,000.00 | Status: ALERT
+Customer Churn Rate: 11.3% | Target: 0.0% - 15.0% | Status: PASS
+Enterprise Revenue per Customer: $242,500.00 | Target: $230,000.00 - $255,000.00 | Status: PASS
+SMB Revenue per Customer: $79,000.00 | Target: $75,000.00 - $85,000.00 | Status: PASS
+Startup Revenue per Customer: $17,250.00 | Target: $15,000.00 - $20,000.00 | Status: PASS
+Enterprise Revenue Share: 71.6% | Target: 65.0% - 80.0% | Status: PASS
+
+KPIs within target: 5
+KPIs outside target: 1
+
+KPI DECOMPOSITION
+----------------------------------------------------------------------
+Level 1 - Total Revenue: $16,937,500.00
+
+Level 2 - Revenue by Customer Segment:
+  Enterprise: $12,125,000.00
+  SMB: $3,950,000.00
+  Startup: $862,500.00
+
+Level 3 - Revenue by Product within Segment:
+  Enterprise:
+    Product_B: $4,165,000.00
+    Product_A: $4,080,000.00
+    Product_C: $3,880,000.00
+  SMB:
+    Product_B: $1,360,000.00
+    Product_A: $1,326,000.00
+    Product_C: $1,264,000.00
+  Startup:
+    Product_B: $297,500.00
+    Product_A: $289,000.00
+    Product_C: $276,000.00
+
+Segment revenue total: $16,937,500.00
+Product revenue total: $16,937,500.00
+Total revenue: $16,937,500.00
+All decomposition levels reconcile to Total Revenue.
+
+KPI GOVERNANCE
+----------------------------------------------------------------------
+KPI definitions: kpis/kpi_reference.md
+Target ranges: kpis/kpi_validation_targets.json
+Reusable functions: kpis/kpi_functions.py
+Schema changes should be documented and historical comparability should be reviewed.

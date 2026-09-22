@@ -1,0 +1,26 @@
+{
+  "average_revenue_per_customer": {
+    "min": 80000,
+    "max": 90000
+  },
+  "churn_rate": {
+    "min": 0.0,
+    "max": 0.15
+  },
+  "enterprise_revenue_per_customer": {
+    "min": 230000,
+    "max": 255000
+  },
+  "smb_revenue_per_customer": {
+    "min": 75000,
+    "max": 85000
+  },
+  "startup_revenue_per_customer": {
+    "min": 15000,
+    "max": 20000
+  },
+  "enterprise_revenue_share": {
+    "min": 0.65,
+    "max": 0.80
+  }
+}
