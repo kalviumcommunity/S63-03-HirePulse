@@ -1,0 +1,7 @@
+validation_name,status,details
+normalization_range,PASS,All normalized revenue values are between 0 and 1
+zscore_created,PASS,Revenue z-score column exists
+ranking_created,PASS,Revenue ranking column exists
+output_shape_valid,PASS,Output preserves all rows and contains five required columns
+no_missing_values,PASS,No missing values exist in the engineered dataset
+speedup_factor_positive,PASS,Measured speedup factor is positive
