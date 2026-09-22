@@ -1,0 +1,27 @@
+======================================================================
+SEGMENT STRATEGY SUMMARY
+======================================================================
+
+Enterprise (50 customers):
+Enterprise has the highest average customer value at $242,500 and the lowest observed churn at 4.0%. This combination indicates a high-value segment where retention and account expansion should remain important priorities.
+
+SMB (50 customers):
+SMB has an average customer value of $79,000, but it also has the highest observed churn at 18.0%. Because churn is materially higher than the other segments, prioritize targeted retention, onboarding, and customer-support interventions.
+
+Startup (50 customers):
+Startup has an average customer value of $17,250 with a churn rate of 12.0%. The segment sits between the other customer types on the observed metrics, so targeted engagement should focus on improving retention while protecting customer value.
+
+======================================================================
+SAMPLE SIZE CAUTION
+======================================================================
+Each segment contains 50 customers in this dataset, so the segment sizes are balanced for this comparison. However, larger real-world segments generally provide more stable estimates, while smaller segments can be more sensitive to individual customers and should be interpreted cautiously.
+
+======================================================================
+ACTIONABILITY THRESHOLD
+======================================================================
+A segment difference should be considered actionable when it is materially large for the business, supported by a sufficient sample size, and consistent across related metrics or repeated observations. Small differences from a limited sample should be monitored before changing strategy.
+
+======================================================================
+VISUALIZATION EXPLANATION
+======================================================================
+The heatmap provides a side-by-side comparison of customer segments across average value, churn, average revenue, and customer count. Color intensity makes differences between segments easy to identify, while the annotations show the underlying metric values.
