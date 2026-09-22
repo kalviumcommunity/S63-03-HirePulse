@@ -1,0 +1,4 @@
+metric,value
+loop_time_seconds,1.3699987903237343e-05
+numpy_time_seconds,1.800013706088066e-06
+speedup_factor,7.611046436424783
