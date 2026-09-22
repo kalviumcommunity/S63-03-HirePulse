@@ -1,0 +1,55 @@
+SQL BUSINESS METRICS VALIDATION REPORT
+============================================================
+
+DATABASE
+------------------------------------------------------------
+Database: C:\Users\Hp\Desktop\S63-03-HirePulse\database\business_metrics.db
+Engine: SQLite
+
+SOURCE DATA
+------------------------------------------------------------
+transactions.csv -> transactions table
+customers.csv -> customers table
+customer_segment_data.csv -> customer_segments table
+
+IMPORTANT DATA LIMITATION
+------------------------------------------------------------
+The transaction dataset uses customer IDs 101-104, while customers.csv uses IDs 1-3 and customer_segment_data.csv uses IDs C0001-C0150.
+Therefore, these datasets are not assumed to represent the same customer population.
+The revenue-by-segment metric uses customer_segments directly, while MAU uses transactions directly.
+The conversion funnel uses only exact customer_id matches.
+
+1. MONTHLY ACTIVE USERS
+------------------------------------------------------------
+     month  active_users  enterprise_users  smb_users
+2025-01-01             4                 0          0
+
+2. REVENUE BY SEGMENT
+------------------------------------------------------------
+customer_type   product  customer_count  total_revenue  avg_customer_revenue  revenue_per_customer
+   Enterprise Product_B              17        4165000              245000.0              245000.0
+   Enterprise Product_A              17        4080000              240000.0              240000.0
+   Enterprise Product_C              16        3880000              242500.0              242500.0
+          SMB Product_B              17        1360000               80000.0               80000.0
+          SMB Product_A              17        1326000               78000.0               78000.0
+          SMB Product_C              16        1264000               79000.0               79000.0
+      Startup Product_B              17         297500               17500.0               17500.0
+      Startup Product_A              17         289000               17000.0               17000.0
+      Startup Product_C              16         276000               17250.0               17250.0
+
+3. CONVERSION FUNNEL
+------------------------------------------------------------
+signup_date  signups  converted_customers  conversion_pct
+ 2025-03-10        1                    0             0.0
+ 2025-02-20        1                    0             0.0
+ 2025-01-15        1                    0             0.0
+
+VALIDATION RESULTS
+------------------------------------------------------------
+MAU null check: PASS (nulls=0)
+Revenue null check: PASS (nulls=0)
+Revenue positive check: PASS
+Conversion range check: PASS
+Revenue customer-count check: PASS
+
+OVERALL VALIDATION: PASS
