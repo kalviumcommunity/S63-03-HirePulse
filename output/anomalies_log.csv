@@ -1,0 +1,1 @@
+timestamp,anomaly_date,metric,value,expected_range,z_score,severity,status
