@@ -1,0 +1,87 @@
+FUNNEL ANALYSIS & DROP-OFF DETECTION
+======================================================================
+
+STAGE COUNTS
+----------------------------------------------------------------------
+Applied: 100 candidates
+Screening: 90 candidates
+Technical Interview: 80 candidates
+HR Interview: 80 candidates
+Offer Sent: 70 candidates
+Joined: 50 candidates
+
+DROP-OFF ANALYSIS
+----------------------------------------------------------------------
+Applied -> Screening: 10 users lost, 10.0% drop rate, 90.0% completion rate
+Screening -> Technical Interview: 10 users lost, 11.1% drop rate, 88.9% completion rate
+Technical Interview -> HR Interview: 0 users lost, 0.0% drop rate, 100.0% completion rate
+HR Interview -> Offer Sent: 10 users lost, 12.5% drop rate, 87.5% completion rate
+Offer Sent -> Joined: 20 users lost, 28.6% drop rate, 71.4% completion rate
+
+OVERALL CONVERSION
+----------------------------------------------------------------------
+Starting candidates: 100
+Joined candidates: 50
+Overall conversion: 50.0%
+Overall drop-off: 50.0%
+
+BIGGEST BOTTLENECK
+----------------------------------------------------------------------
+Offer Sent -> Joined
+Users lost: 20
+Drop rate: 28.6%
+Illustrative revenue impact: $2,000
+
+BUSINESS IMPACT BY DROP-OFF
+----------------------------------------------------------------------
+Offer Sent -> Joined: 20 users lost, 28.6% drop rate, $2,000 illustrative impact, Priority: HIGH
+Applied -> Screening: 10 users lost, 10.0% drop rate, $1,000 illustrative impact, Priority: MEDIUM
+Screening -> Technical Interview: 10 users lost, 11.1% drop rate, $1,000 illustrative impact, Priority: MEDIUM
+HR Interview -> Offer Sent: 10 users lost, 12.5% drop rate, $1,000 illustrative impact, Priority: MEDIUM
+Technical Interview -> HR Interview: 0 users lost, 0.0% drop rate, $0 illustrative impact, Priority: LOW
+
+
+FUNNEL OPTIMIZATION PRIORITY
+=============================
+
+BIGGEST BOTTLENECK:
+Stage: Offer Sent -> Joined
+Users Lost: 20
+Drop Rate: 28.6%
+Illustrative Revenue Impact: $2,000
+
+WHY THIS MATTERS:
+This transition has the largest absolute candidate loss in the
+observed recruitment funnel. Improving this stage can increase
+the number of candidates progressing toward the final Joined stage.
+
+ROOT CAUSE HYPOTHESES:
+1. The step may have unclear instructions or expectations.
+2. The process may require too much time or effort.
+3. Candidates may experience scheduling or communication friction.
+4. Candidates may receive insufficient information before proceeding.
+5. The timing of the step may create unnecessary delays.
+
+RECOMMENDED ACTION:
+1. Investigate candidate feedback around this transition.
+2. Review the process for unnecessary complexity or delays.
+3. Test a simplified version of the step.
+4. Monitor completion rate and drop rate after the change.
+5. Compare the revised funnel against the baseline.
+
+EXPECTED IMPACT OF A 10% RELATIVE IMPROVEMENT:
+Additional conversions: 2
+Illustrative additional revenue: $200
+
+SUCCESS CRITERIA:
+- Increase completion rate at the bottleneck stage.
+- Reduce the stage-specific drop rate.
+- Track whether improvement persists across multiple cohorts.
+- Monitor final Joined conversion to confirm downstream impact.
+
+BUSINESS VALUE ASSUMPTION:
+The dataset does not contain an actual revenue-per-hire or
+customer LTV value. Therefore, $100 per successful conversion is
+used only as an illustrative scenario value, consistent with the
+assignment example. Replace this value with an actual business
+value if one becomes available.
