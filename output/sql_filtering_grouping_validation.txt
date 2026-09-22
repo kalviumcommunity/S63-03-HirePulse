@@ -1,0 +1,53 @@
+SQL FILTERING, GROUPING & AGGREGATION REPORT
+============================================================
+
+Source: data/raw/transactions.csv
+Database: SQLite
+
+Data limitation: transactions.csv contains only customer_id, transaction_date, and amount.
+Fields such as transaction_status, customer_type, and industry are not available and were not fabricated.
+
+WHERE_FILTERING
+------------------------------------------------------------
+ customer_id  total_revenue  transaction_count
+         104           2200                  1
+         103           1500                  1
+         101           1200                  1
+         102            850                  1
+
+GROUP_BY_AGGREGATION
+------------------------------------------------------------
+     month  unique_customers  transaction_count  monthly_revenue  avg_transaction
+2025-01-01                 4                  4             5750           1437.5
+
+HAVING_FILTERING
+------------------------------------------------------------
+ customer_id  transaction_count  total_revenue
+         104                  1           2200
+         103                  1           1500
+         101                  1           1200
+
+WHERE_HAVING_COMBINED
+------------------------------------------------------------
+ customer_id  transaction_count  total_revenue  avg_transaction
+         104                  1           2200           2200.0
+         103                  1           1500           1500.0
+         101                  1           1200           1200.0
+
+RANKING
+------------------------------------------------------------
+ customer_id  transaction_count  total_revenue  avg_transaction  revenue_rank
+         104                  1           2200           2200.0             1
+         103                  1           1500           1500.0             2
+         101                  1           1200           1200.0             3
+         102                  1            850            850.0             4
+
+VALIDATION RESULTS
+------------------------------------------------------------
+Task 1 WHERE check: PASS
+Task 2 GROUP BY check: PASS
+Task 3 HAVING check: PASS
+Task 4 WHERE + HAVING check: PASS
+Task 5 RANK check: PASS
+
+OVERALL VALIDATION: PASS
