@@ -1,0 +1,4 @@
+customer_type,avg_ltv,churn_rate,avg_revenue,customer_count,total_revenue,ltv_rank,churn_rank,revenue_rank
+Enterprise,242500.0,0.04,242500.0,50,12125000,1,1,1
+SMB,79000.0,0.18,79000.0,50,3950000,2,3,2
+Startup,17250.0,0.12,17250.0,50,862500,3,2,3
