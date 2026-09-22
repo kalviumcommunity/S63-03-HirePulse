@@ -1,0 +1,95 @@
+TIME-SERIES TREND ANALYSIS
+==========================
+
+Dataset:
+HirePulse offers.csv
+
+Analysis period:
+2025-01-26 to 2025-08-16
+
+Total accumulated offer salary value:
+$5,845,000
+
+Highest weekly offer salary value:
+2025-02-09 -> $361,000
+
+Highest monthly offer salary value:
+July 2025 -> $945,500
+
+
+ROLLING METRICS
+---------------
+
+Latest 7-day rolling average:
+$51,571.43
+
+Latest 30-day rolling average:
+$34,150.00
+
+Recent 30-day rolling-average trend:
+UP
+
+Change in 30-day rolling average:
+40.53%
+
+
+MONTH-OVER-MONTH ANALYSIS
+-------------------------
+
+Latest month-over-month change:
+-38.18%
+
+Positive-growth months:
+4
+
+Declining months:
+3
+
+Stable months:
+0
+
+Strongest positive month-over-month change:
+February 2025 -> +541.87%
+
+Strongest negative month-over-month change:
+August 2025 -> -38.18%
+
+
+VOLATILITY
+----------
+
+Daily offer salary-value standard deviation:
+$40,137.87
+
+
+BUSINESS INTERPRETATION
+-----------------------
+
+The smoothed offer salary trend is increasing. This indicates that offer-value activity is growing over the recent period rather than the increase being caused only by isolated daily spikes.
+
+Suggested action:
+Review the recruiting pipeline and capacity to determine what is driving the increase. If the increase is sustainable, maintain sufficient recruiting and onboarding capacity.
+
+
+TIME-SERIES OBSERVATION
+-----------------------
+
+Raw daily data contains gaps and fluctuations because offers do not
+occur every day. Resampling converts these observations into weekly
+and monthly summaries. The 7-day rolling average smooths short-term
+daily noise, while the 30-day rolling average provides a broader view
+of the underlying direction.
+
+A positive .pct_change() means the current month's offer salary value
+increased compared with the previous month. A negative value means it
+decreased.
+
+Missing calendar dates were explicitly added to the time series and
+their offer activity was represented as zero. This prevents gaps in
+the date index from being ignored during rolling-window calculations.
+
+IMPORTANT:
+This analysis uses "offer salary value" as the business metric because
+HirePulse is a recruitment dataset and does not contain actual revenue.
+Salary values represent the total salary attached to offers, not company
+revenue.
