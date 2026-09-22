@@ -1,0 +1,7 @@
+validation_name,status,details
+row_count,PASS,Dataset contains at least 150 rows
+customer_types,PASS,"All Enterprise, SMB, and Startup customer types are present"
+products,PASS,All three expected products are present
+null_check,PASS,Dataset contains no null values
+pivot_created,PASS,Segment-product revenue pivot has shape 3x3
+insights_created,PASS,Insights exist for every customer type

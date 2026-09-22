@@ -1,0 +1,17 @@
+{
+  "Enterprise": {
+    "churn_rate": 0.04,
+    "total_revenue": 12125000.0,
+    "insight": "Healthy segment with strong revenue and low churn"
+  },
+  "SMB": {
+    "churn_rate": 0.18,
+    "total_revenue": 3950000.0,
+    "insight": "Highest churn segment requiring intervention"
+  },
+  "Startup": {
+    "churn_rate": 0.12,
+    "total_revenue": 862500.0,
+    "insight": "Moderate churn with growth potential"
+  }
+}
