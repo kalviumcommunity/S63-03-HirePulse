@@ -22,6 +22,13 @@ recruitment-analytics/
 
 ## Setup and run
 
+### 1. Launch the Interactive Web Dashboard
+```bash
+python app.py
+```
+Open your browser at **http://127.0.0.1:5000** to view executive KPIs, recruitment funnel visualizations, department benchmarks, candidate journey explorer, and anomaly monitoring.
+
+### 2. Run Data Pipeline Scripts
 ```bash
 python -m pip install -r requirements.txt
 python src/generate_sample_data.py

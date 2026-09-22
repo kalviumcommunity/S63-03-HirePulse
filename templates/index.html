@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HirePulse - Recruitment Analytics Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Top Navbar -->
+    <header class="navbar">
+        <div class="nav-brand">
+            <div class="logo-icon">
+                <i class="fa-solid fa-chart-simple"></i>
+            </div>
+            <div class="brand-text">
+                <h1>HirePulse</h1>
+                <span class="badge-tag">Recruitment Analytics</span>
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <div class="live-status">
+                <span class="status-dot"></span>
+                <span>Live Pipeline</span>
+            </div>
+            <button id="themeToggle" class="btn-icon" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button id="refreshBtn" class="btn-primary">
+                <i class="fa-solid fa-arrows-rotate"></i> Refresh
+            </button>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <nav class="nav-menu">
+                <button class="nav-item active" data-tab="overview">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <span>Overview & Funnel</span>
+                </button>
+                <button class="nav-item" data-tab="departments">
+                    <i class="fa-solid fa-building"></i>
+                    <span>Department Analytics</span>
+                </button>
+                <button class="nav-item" data-tab="candidates">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Candidate Explorer</span>
+                </button>
+                <button class="nav-item" data-tab="anomalies">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>Anomaly Monitor</span>
+                    <span id="anomalyBadge" class="pill-badge">0</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="engine-card">
+                    <div class="engine-title">Data Pipeline</div>
+                    <div class="engine-sub">Phase 1 & 2 Engine Active</div>
+                    <div class="engine-progress">
+                        <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- TAB 1: OVERVIEW & FUNNEL -->
+            <section id="tab-overview" class="tab-pane active">
+                <div class="section-header">
+                    <div>
+                        <h2>Executive Recruitment Overview</h2>
+                        <p class="subtitle">Real-time candidate metrics, funnel progression, and hiring velocity.</p>
+                    </div>
+                    <div class="quick-stats-pill">
+                        <span id="overviewDateRange">Data Synchronized</span>
+                    </div>
+                </div>
+
+                <!-- KPI Cards Grid -->
+                <div class="kpi-grid">
+                    <div class="kpi-card glass-card">
+                        <div class="kpi-icon blue">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Total Applied</span>
+                            <h3 id="metricTotalCandidates">--</h3>
+                            <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> Inbound Pool</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card glass-card">
+                        <div class="kpi-icon purple">
+                            <i class="fa-solid fa-envelope-open-text"></i>
+                        </div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Offers Sent</span>
+                            <h3 id="metricOffersSent">--</h3>
+                            <span class="kpi-subtext" id="metricOfferAcceptance">--% Acceptance</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card glass-card">
+                        <div class="kpi-icon green">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Joined / Hired</span>
+                            <h3 id="metricJoined">--</h3>
+                            <span class="kpi-trend positive" id="metricConversionRate">--% Conversion</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card glass-card">
+                        <div class="kpi-icon orange">
+                            <i class="fa-solid fa-stopwatch"></i>
+                        </div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Avg. Time-to-Hire</span>
+                            <h3 id="metricTimeToHire">-- <small>days</small></h3>
+                            <span class="kpi-subtext">Application to Joining</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card glass-card">
+                        <div class="kpi-icon teal">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                        </div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Avg. Offer Salary</span>
+                            <h3 id="metricAvgSalary">--</h3>
+                            <span class="kpi-subtext">Across all hires</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card glass-card">
+                        <div class="kpi-icon indigo">
+                            <i class="fa-solid fa-ranking-star"></i>
+                        </div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Top Department</span>
+                            <h3 id="metricTopDept">--</h3>
+                            <span class="kpi-subtext">Highest Applications</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Funnel & Timeline Charts Grid -->
+                <div class="charts-grid two-columns">
+                    <!-- Funnel Stage Progression -->
+                    <div class="chart-card glass-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3>Recruitment Funnel & Drop-Offs</h3>
+                                <p class="chart-sub">Candidate conversion through hiring pipeline</p>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="funnelChart"></canvas>
+                        </div>
+                        <div class="funnel-summary-list" id="funnelSummaryList">
+                            <!-- Dynamic Stage Cards -->
+                        </div>
+                    </div>
+
+                    <!-- Application Trend Chart -->
+                    <div class="chart-card glass-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3>Application Inflow Trend</h3>
+                                <p class="chart-sub">Monthly candidate intake velocity</p>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="timelineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: DEPARTMENT ANALYTICS -->
+            <section id="tab-departments" class="tab-pane">
+                <div class="section-header">
+                    <div>
+                        <h2>Department Hiring Breakdown</h2>
+                        <p class="subtitle">Applications, offers, conversion rates, and salary benchmarks per department.</p>
+                    </div>
+                </div>
+
+                <div class="charts-grid two-columns">
+                    <div class="chart-card glass-card">
+                        <div class="chart-header">
+                            <h3>Candidates vs. Offers by Department</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="departmentChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card glass-card">
+                        <div class="chart-header">
+                            <h3>Average Offered Compensation ($)</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="salaryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Department Table -->
+                <div class="table-card glass-card">
+                    <div class="table-header">
+                        <h3>Department Metrics Table</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table" id="deptTable">
+                            <thead>
+                                <tr>
+                                    <th>Department</th>
+                                    <th>Candidates</th>
+                                    <th>Offers Sent</th>
+                                    <th>Offers Accepted</th>
+                                    <th>Joined</th>
+                                    <th>Hire Rate</th>
+                                    <th>Avg Salary</th>
+                                </tr>
+                            </thead>
+                            <tbody id="deptTableBody">
+                                <!-- Dynamic rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: CANDIDATE EXPLORER -->
+            <section id="tab-candidates" class="tab-pane">
+                <div class="section-header">
+                    <div>
+                        <h2>Candidate Explorer</h2>
+                        <p class="subtitle">Search, filter, and inspect detailed profiles across the recruitment funnel.</p>
+                    </div>
+                </div>
+
+                <!-- Filters Bar -->
+                <div class="filter-bar glass-card">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="candidateSearchInput" placeholder="Search by name, email, ID...">
+                    </div>
+                    <div class="filter-group">
+                        <select id="departmentFilter">
+                            <option value="">All Departments</option>
+                        </select>
+                        <select id="stageFilter">
+                            <option value="">All Stages</option>
+                            <option value="Applied">Applied</option>
+                            <option value="Screening">Screening</option>
+                            <option value="Technical Interview">Technical Interview</option>
+                            <option value="HR Interview">HR Interview</option>
+                            <option value="Offer Sent">Offer Sent</option>
+                            <option value="Joined">Joined</option>
+                        </select>
+                        <select id="statusFilter">
+                            <option value="">All Statuses</option>
+                            <option value="Completed">Completed</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Dropped">Dropped</option>
+                            <option value="Pending">Pending</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Candidates Table -->
+                <div class="table-card glass-card">
+                    <div class="table-header flex-between">
+                        <h3>Candidate Records (<span id="candidateCountDisplay">0</span>)</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Candidate Name</th>
+                                    <th>Department</th>
+                                    <th>Applied Date</th>
+                                    <th>Current Stage</th>
+                                    <th>Stage Status</th>
+                                    <th>Offer / Salary</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="candidatesTableBody">
+                                <!-- Dynamic Candidate Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: ANOMALIES & AUDIT -->
+            <section id="tab-anomalies" class="tab-pane">
+                <div class="section-header">
+                    <div>
+                        <h2>Anomaly Detection & Pipeline Health</h2>
+                        <p class="subtitle">Automated outlier detection, salary discrepancies, and pipeline bottlenecks.</p>
+                    </div>
+                </div>
+
+                <div class="anomalies-container" id="anomaliesList">
+                    <!-- Dynamic Anomaly Cards -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Candidate Detail Modal -->
+    <div id="candidateModal" class="modal-backdrop">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <h3 id="modalCandidateName">Candidate Details</h3>
+                    <span id="modalCandidateDept" class="badge-dept">Department</span>
+                </div>
+                <button id="closeModalBtn" class="btn-icon">&times;</button>
+            </div>
+            <div class="modal-body" id="modalCandidateContent">
+                <!-- Dynamic detail info -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
