@@ -1,0 +1,4 @@
+column,method,action,threshold_lower,threshold_upper,affected_rows,reason,timestamp
+revenue,IQR,Cap,750.0,2950.0,1,Cap revenue values outside IQR bounds,2026-09-21T23:30:02.023045
+age,Business Rule,Flag,,120.0,1,Flag impossible ages greater than 120,2026-09-21T23:30:02.023045
+revenue,Z-Score + IQR,Flag,750.0,2950.0,1,Combine statistical outlier detection methods,2026-09-21T23:30:02.023045

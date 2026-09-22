@@ -1,0 +1,28 @@
+2026-09-17 14:09:38,632 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\candidates.csv; rows ingested: 100
+2026-09-17 14:09:38,634 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\recruitment_stages.csv; rows ingested: 470
+2026-09-17 14:09:38,636 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\interviews.csv; rows ingested: 80
+2026-09-17 14:09:38,637 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\offers.csv; rows ingested: 70
+2026-09-17 14:09:38,638 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\onboarding.csv; rows ingested: 50
+2026-09-17 14:09:38,680 INFO Rows processed: 100
+2026-09-17 14:09:38,695 INFO Output generated: C:\Users\pc\S63-03-HirePulse\outputs\processed_candidates.csv; rows written: 100
+2026-09-17 14:10:15,620 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\candidates.csv; rows ingested: 100
+2026-09-17 14:10:15,622 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\recruitment_stages.csv; rows ingested: 470
+2026-09-17 14:10:15,624 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\interviews.csv; rows ingested: 80
+2026-09-17 14:10:15,625 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\offers.csv; rows ingested: 70
+2026-09-17 14:10:15,627 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\onboarding.csv; rows ingested: 50
+2026-09-17 14:10:15,662 INFO Rows processed: 100
+2026-09-17 14:10:15,669 INFO Output generated: C:\Users\pc\S63-03-HirePulse\outputs\processed_candidates.csv; rows written: 100
+2026-09-17 14:10:31,980 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\candidates.csv; rows ingested: 100
+2026-09-17 14:10:31,983 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\recruitment_stages.csv; rows ingested: 470
+2026-09-17 14:10:31,985 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\interviews.csv; rows ingested: 80
+2026-09-17 14:10:31,986 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\offers.csv; rows ingested: 70
+2026-09-17 14:10:31,988 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\onboarding.csv; rows ingested: 50
+2026-09-17 14:10:32,021 INFO Rows processed: 100
+2026-09-17 14:10:32,025 INFO Output generated: C:\Users\pc\S63-03-HirePulse\outputs\processed_candidates.csv; rows written: 100
+2026-09-17 14:25:55,081 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\candidates.csv; rows ingested: 100
+2026-09-17 14:25:55,086 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\recruitment_stages.csv; rows ingested: 470
+2026-09-17 14:25:55,091 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\interviews.csv; rows ingested: 80
+2026-09-17 14:25:55,096 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\offers.csv; rows ingested: 70
+2026-09-17 14:25:55,098 INFO File loaded: C:\Users\pc\S63-03-HirePulse\data\onboarding.csv; rows ingested: 50
+2026-09-17 14:25:55,203 INFO Rows processed: 100
+2026-09-17 14:25:55,211 INFO Output generated: C:\Users\pc\S63-03-HirePulse\outputs\processed_candidates.csv; rows written: 100

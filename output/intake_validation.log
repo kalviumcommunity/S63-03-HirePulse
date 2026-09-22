@@ -1,0 +1,5 @@
+2026-09-17 14:51:45,296 INFO File loaded for validation: C:\Users\pc\S63-03-HirePulse\data\candidates.csv
+2026-09-17 14:51:45,296 INFO Validation results: supported format=csv
+2026-09-17 14:51:45,300 INFO Encoding check: ascii confidence=1.0000
+2026-09-17 14:51:45,303 INFO Schema check: valid=True
+2026-09-17 14:51:45,305 INFO Report generated: C:\Users\pc\S63-03-HirePulse\output\intake_report.json
