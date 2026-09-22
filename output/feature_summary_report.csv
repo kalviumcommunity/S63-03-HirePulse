@@ -1,0 +1,8 @@
+feature_name,dtype,min,max,mean
+transactions_per_month,float64,1.375,14.0,4.28125
+avg_spend_per_transaction,float64,30.0,300.0,125.0
+lifetime_value_per_month,float64,60.0,4200.0,799.3958333333334
+recency_score,int64,1.0,5.0,3.0
+frequency_score,int64,1.0,5.0,3.0
+monetary_score,int64,1.0,5.0,3.0
+rfm_score,int64,3.0,15.0,9.0

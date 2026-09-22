@@ -1,0 +1,5 @@
+validation_name,status,details
+no_missing_engineered_features,PASS,No NaNs in engineered feature columns
+rfm_score_range,PASS,RFM scores are between 3 and 15
+positive_transactions_per_month,PASS,All transactions_per_month values are positive
+positive_avg_spend_per_transaction,PASS,All avg_spend_per_transaction values are positive
