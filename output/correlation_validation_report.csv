@@ -1,0 +1,9 @@
+validation_name,status,details
+dataset_row_count,PASS,Dataset contains at least 150 rows
+no_missing_values,PASS,No missing values exist
+pearson_matrix_generated,PASS,Pearson matrix file exists
+spearman_matrix_generated,PASS,Spearman matrix file exists
+heatmap_generated,PASS,Correlation heatmap file exists
+strong_correlation_pairs_identified,PASS,Strong correlation pairs were identified
+business_analysis_generated,PASS,Business analysis JSON exists
+feature_selection_analysis,PASS,"Retain engagement and consider removing transactions_per_month: the features are redundant above the 0.85 threshold, and engagement is more interpretable as a customer-level business concept."

@@ -1,0 +1,12 @@
+{
+  "support_tickets_vs_churn": {
+    "correlation": 0.8660254037844383,
+    "possible_directions": [
+      "Support issues may increase customer frustration and churn risk",
+      "Customers preparing to churn may submit more support tickets",
+      "Product complexity or service quality may drive both tickets and churn"
+    ],
+    "confounder": "customer_pain",
+    "conclusion": "Correlation does not prove causation"
+  }
+}
