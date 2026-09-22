@@ -1,0 +1,4 @@
+customer_type,churn_rate,total_revenue,customer_count,churn_rank,revenue_rank
+SMB,0.18,3950000,50,1,2
+Startup,0.12,862500,50,2,3
+Enterprise,0.04,12125000,50,3,1
