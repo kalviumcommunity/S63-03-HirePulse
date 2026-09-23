@@ -159,6 +159,10 @@ ormsgpack==1.12.2
 overrides==7.7.0
 packaging==25.0
 pandas==2.3.2
+plotly>=6.0,<7
+schedule>=1.2,<2
+weasyprint>=63,<69
+fpdf2>=2.8,<3
 pandocfilters==1.5.1
 parso==0.8.6
 passlib==1.7.4
