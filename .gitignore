@@ -3,3 +3,4 @@ database/postgres_data/
 database/postgres.log
 __pycache__/
 tests/__pycache__/
+output/generated_reports/
