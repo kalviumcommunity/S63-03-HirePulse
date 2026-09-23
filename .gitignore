@@ -1,1 +1,5 @@
 .venv/
+database/postgres_data/
+database/postgres.log
+__pycache__/
+tests/__pycache__/
