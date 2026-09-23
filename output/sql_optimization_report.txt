@@ -1,0 +1,36 @@
+================================================================================
+ANALYTICAL SQL QUERY OPTIMISATION BENCHMARK REPORT
+================================================================================
+Timestamp: 2026-09-23T14:27:12.977586
+Database Engine: SQLite (Local Demo Dataset: 500 customers, 50 products, 10,000 transactions)
+Note: Benchmarks reflect functional execution on demo SQLite instance.
+
+TASK 1: SELECT * -> EXPLICIT COLUMNS
+--------------------------------------------------------------------------------
+Original Selected Columns : 10 ['transaction_id', 'customer_id', 'product_id', 'transaction_date', 'amount', 'id', 'customer_name', 'country', 'account_type', 'customer_segment']
+Optimized Selected Columns: 7 ['transaction_id', 'transaction_date', 'amount', 'customer_id', 'customer_name', 'country', 'account_type']
+Column Reduction Summary  : 10 -> 7 (3 columns dropped)
+Original Execution Time   : 4.93 ms
+Optimized Execution Time  : 3.72 ms
+
+TASK 2: FILTER BEFORE JOIN
+--------------------------------------------------------------------------------
+Total Transactions        : 10,000
+Transactions Post-Filter  : 4,131
+Rows Removed Before Join  : 5,869
+Reduction Percentage      : 58.69%
+Reduction Factor          : 2.42x
+Final Result Row Count    : 1,661
+Logical Match Verification: PASS
+
+TASK 3: NESTED SUBQUERIES -> CTEs
+--------------------------------------------------------------------------------
+Original Nesting Depth    : 3 levels
+Refactored Nesting Depth  : 1 level (Modular CTEs)
+Original Row Count        : 1 row (due to missing GROUP BY in outer AVG)
+Refactored Row Count      : 4 rows (all segments represented)
+Original Execution Time   : 3.95 ms
+Refactored Execution Time : 4.13 ms
+Bug Analysis              : Original query lacked GROUP BY in outer AVG, collapsing 4 segment rows into 1.
+
+================================================================================
