@@ -46,12 +46,6 @@ C0008,HR Interview,Completed,2025-02-02
 C0009,Applied,Completed,2025-01-24
 C0009,Screening,Completed,2025-01-28
 C0010,Applied,Completed,2025-01-24
-C0011,Applied,Completed,2025-01-28
-C0011,Screening,Completed,2025-02-01
-C0011,Technical Interview,Completed,2025-02-05
-C0011,HR Interview,Completed,2025-02-09
-C0011,Offer Sent,Completed,2025-02-13
-C0011,Joined,Completed,2025-02-17
 C0012,Applied,Completed,2025-01-31
 C0012,Screening,Completed,2025-02-04
 C0012,Technical Interview,Completed,2025-02-08
@@ -469,3 +463,4 @@ C0098,HR Interview,Completed,2025-08-10
 C0099,Applied,Completed,2025-08-01
 C0099,Screening,Completed,2025-08-05
 C0100,Applied,Completed,2025-08-01
+C0101,Applied,In Progress,2026-09-24

@@ -249,11 +249,14 @@
 
             <!-- TAB 3: CANDIDATE EXPLORER -->
             <section id="tab-candidates" class="tab-pane">
-                <div class="section-header">
+                <div class="section-header flex-between">
                     <div>
                         <h2>Candidate Explorer</h2>
-                        <p class="subtitle">Search, filter, and inspect detailed profiles across the recruitment funnel.</p>
+                        <p class="subtitle">Search, filter, manage, and inspect detailed profiles across the recruitment funnel.</p>
                     </div>
+                    <button id="addCandidateBtn" class="btn-primary">
+                        <i class="fa-solid fa-user-plus"></i> Add Candidate
+                    </button>
                 </div>
 
                 <!-- Filters Bar -->
@@ -301,7 +304,7 @@
                                     <th>Current Stage</th>
                                     <th>Stage Status</th>
                                     <th>Offer / Salary</th>
-                                    <th>Action</th>
+                                    <th style="text-align: right;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="candidatesTableBody">
@@ -343,6 +346,140 @@
             </div>
         </div>
     </div>
+
+    <!-- Candidate Add / Edit Modal -->
+    <div id="candidateFormModal" class="modal-backdrop">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <h3 id="candidateFormModalTitle"><i class="fa-solid fa-user-pen"></i> Add New Candidate</h3>
+                    <p class="modal-subtitle" id="candidateFormModalSubtitle">Fill in candidate details to add them to the recruitment pipeline.</p>
+                </div>
+                <button id="closeCandidateFormModalBtn" class="btn-icon">&times;</button>
+            </div>
+            <form id="candidateForm" class="modal-body">
+                <input type="hidden" id="formCandidateId" value="">
+                
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="formFullName">Full Name <span class="required">*</span></label>
+                        <div class="input-icon-wrap">
+                            <i class="fa-solid fa-user input-icon"></i>
+                            <input type="text" id="formFullName" class="form-control" placeholder="e.g. Alex Morgan" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formEmail">Email Address <span class="required">*</span></label>
+                        <div class="input-icon-wrap">
+                            <i class="fa-solid fa-envelope input-icon"></i>
+                            <input type="email" id="formEmail" class="form-control" placeholder="alex.morgan@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formPhone">Phone Number</label>
+                        <div class="input-icon-wrap">
+                            <i class="fa-solid fa-phone input-icon"></i>
+                            <input type="tel" id="formPhone" class="form-control" placeholder="+1-555-019-2831">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formDepartment">Department <span class="required">*</span></label>
+                        <select id="formDepartment" class="form-control" required>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Data Analytics">Data Analytics</option>
+                            <option value="Product">Product</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Operations">Operations</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Human Resources">Human Resources</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formAppliedDate">Application Date</label>
+                        <div class="input-icon-wrap">
+                            <i class="fa-solid fa-calendar input-icon"></i>
+                            <input type="date" id="formAppliedDate" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formStageName">Pipeline Stage</label>
+                        <select id="formStageName" class="form-control">
+                            <option value="Applied">Applied</option>
+                            <option value="Screening">Screening</option>
+                            <option value="Technical Interview">Technical Interview</option>
+                            <option value="HR Interview">HR Interview</option>
+                            <option value="Offer Sent">Offer Sent</option>
+                            <option value="Joined">Joined</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formStageStatus">Stage Status</label>
+                        <select id="formStageStatus" class="form-control">
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Dropped">Dropped</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formOfferSalary">Offer Salary ($)</label>
+                        <div class="input-icon-wrap">
+                            <i class="fa-solid fa-dollar-sign input-icon"></i>
+                            <input type="number" id="formOfferSalary" class="form-control" placeholder="e.g. 85000" min="0" step="1000">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formOfferAccepted">Offer Status</label>
+                        <select id="formOfferAccepted" class="form-control">
+                            <option value="false">Pending / Offer Extended</option>
+                            <option value="true">Accepted</option>
+                            <option value="false">Declined / Not Accepted</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="cancelCandidateFormBtn" class="btn-secondary">Cancel</button>
+                    <button type="submit" id="saveCandidateBtn" class="btn-primary">
+                        <i class="fa-solid fa-check"></i> Save Candidate
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Candidate Delete Confirmation Modal -->
+    <div id="deleteConfirmModal" class="modal-backdrop">
+        <div class="modal-content glass-card delete-modal-content">
+            <div class="delete-icon-wrap">
+                <i class="fa-solid fa-trash-can"></i>
+            </div>
+            <h3 class="delete-modal-title">Delete Candidate</h3>
+            <p class="delete-modal-msg">
+                Are you sure you want to delete candidate <strong id="deleteCandidateName">Candidate Name</strong> (<span id="deleteCandidateId">#ID</span>)?
+                <br><br>
+                <span class="danger-warning">All related stage progression, interview notes, and offer records will be permanently removed.</span>
+            </p>
+            <div class="modal-footer justify-center">
+                <button type="button" id="cancelDeleteBtn" class="btn-secondary">Cancel</button>
+                <button type="button" id="confirmDeleteBtn" class="btn-danger">
+                    <i class="fa-solid fa-trash"></i> Delete Candidate
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
 
     <!-- Script -->
     <script src="/static/js/dashboard.js"></script>

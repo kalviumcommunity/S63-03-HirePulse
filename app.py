@@ -255,6 +255,12 @@ def api_timeline():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
+def save_csv(filename, df):
+    """Save dataframe back to CSV in DATA_DIR."""
+    file_path = DATA_DIR / filename
+    df.to_csv(file_path, index=False)
+
+
 @app.route("/api/candidates")
 def api_candidates():
     try:
@@ -271,10 +277,10 @@ def api_candidates():
         # Enrich candidates with current stage, offer status, and interview score
         records = []
         for _, row in candidates.iterrows():
-            cid = row["candidate_id"]
+            cid = str(row["candidate_id"])
 
             # Stages for this candidate
-            c_stages = stages[stages["candidate_id"] == cid] if not stages.empty else pd.DataFrame()
+            c_stages = stages[stages["candidate_id"].astype(str) == cid] if not stages.empty else pd.DataFrame()
             current_stage = "Applied"
             stage_status = "Pending"
             if not c_stages.empty:
@@ -283,7 +289,7 @@ def api_candidates():
                 stage_status = last_stage.get("status", "In Progress")
 
             # Offer details
-            c_offer = offers[offers["candidate_id"] == cid] if not offers.empty else pd.DataFrame()
+            c_offer = offers[offers["candidate_id"].astype(str) == cid] if not offers.empty else pd.DataFrame()
             offer_salary = None
             offer_accepted = None
             if not c_offer.empty:
@@ -291,12 +297,12 @@ def api_candidates():
                 offer_accepted = bool(c_offer.iloc[0].get("accepted"))
 
             # Interview count & avg score
-            c_interviews = interviews[interviews["candidate_id"] == cid] if not interviews.empty else pd.DataFrame()
+            c_interviews = interviews[interviews["candidate_id"].astype(str) == cid] if not interviews.empty else pd.DataFrame()
             num_interviews = len(c_interviews)
             avg_score = safe_float(c_interviews["score"].mean()) if num_interviews > 0 and "score" in c_interviews.columns else None
 
             # Onboarding
-            c_onboarding = onboarding[onboarding["candidate_id"] == cid] if not onboarding.empty else pd.DataFrame()
+            c_onboarding = onboarding[onboarding["candidate_id"].astype(str) == cid] if not onboarding.empty else pd.DataFrame()
             onb_status = c_onboarding.iloc[0].get("onboarding_status", "N/A") if not c_onboarding.empty else "N/A"
             joining_date = str(c_onboarding.iloc[0].get("joining_date", "")) if not c_onboarding.empty else ""
 
@@ -322,7 +328,7 @@ def api_candidates():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
-@app.route("/api/candidate/<int:cid>")
+@app.route("/api/candidate/<cid>")
 def api_candidate_detail(cid):
     try:
         data = load_dataset()
@@ -332,15 +338,15 @@ def api_candidate_detail(cid):
         interviews = data["interviews"]
         onboarding = data["onboarding"]
 
-        cand = candidates[candidates["candidate_id"] == cid]
+        cand = candidates[candidates["candidate_id"].astype(str) == str(cid)]
         if cand.empty:
             return jsonify({"status": "error", "message": "Candidate not found"}), 404
 
         cand_dict = cand.iloc[0].to_dict()
-        c_stages = stages[stages["candidate_id"] == cid].to_dict(orient="records") if not stages.empty else []
-        c_offers = offers[offers["candidate_id"] == cid].to_dict(orient="records") if not offers.empty else []
-        c_interviews = interviews[interviews["candidate_id"] == cid].to_dict(orient="records") if not interviews.empty else []
-        c_onboarding = onboarding[onboarding["candidate_id"] == cid].to_dict(orient="records") if not onboarding.empty else []
+        c_stages = stages[stages["candidate_id"].astype(str) == str(cid)].to_dict(orient="records") if not stages.empty else []
+        c_offers = offers[offers["candidate_id"].astype(str) == str(cid)].to_dict(orient="records") if not offers.empty else []
+        c_interviews = interviews[interviews["candidate_id"].astype(str) == str(cid)].to_dict(orient="records") if not interviews.empty else []
+        c_onboarding = onboarding[onboarding["candidate_id"].astype(str) == str(cid)].to_dict(orient="records") if not onboarding.empty else []
 
         return jsonify({
             "status": "success",
@@ -350,6 +356,225 @@ def api_candidate_detail(cid):
             "interviews": c_interviews,
             "onboarding": c_onboarding,
         })
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route("/api/candidate", methods=["POST"])
+@app.route("/api/candidates", methods=["POST"])
+def api_add_candidate():
+    """Add a new candidate and optionally initial stage / offer records."""
+    try:
+        import re
+        from datetime import date
+
+        body = request.get_json() or {}
+        full_name = str(body.get("full_name", "")).strip()
+        email = str(body.get("email", "")).strip()
+        phone = str(body.get("phone", "")).strip()
+        department = str(body.get("department", "Engineering")).strip()
+        applied_date = str(body.get("applied_date", "")).strip() or date.today().isoformat()
+        stage_name = str(body.get("stage_name", "Applied")).strip()
+        stage_status = str(body.get("stage_status", "In Progress")).strip()
+        offer_salary = body.get("offer_salary")
+        offer_accepted = body.get("offer_accepted")
+
+        if not full_name:
+            return jsonify({"status": "error", "message": "Full Name is required."}), 400
+        if not email:
+            return jsonify({"status": "error", "message": "Email is required."}), 400
+
+        data = load_dataset()
+        candidates_df = data["candidates"]
+        stages_df = data["stages"]
+        offers_df = data["offers"]
+
+        # Generate next candidate ID
+        max_num = 0
+        if not candidates_df.empty and "candidate_id" in candidates_df.columns:
+            for cid in candidates_df["candidate_id"].dropna():
+                match = re.search(r"\d+", str(cid))
+                if match:
+                    val = int(match.group())
+                    if val > max_num:
+                        max_num = val
+        new_cid = f"C{max_num + 1:04d}"
+
+        # 1. Add candidate record
+        new_cand = pd.DataFrame([{
+            "candidate_id": new_cid,
+            "full_name": full_name,
+            "email": email,
+            "phone": phone,
+            "department": department,
+            "applied_date": applied_date
+        }])
+        candidates_df = pd.concat([candidates_df, new_cand], ignore_index=True)
+        save_csv("candidates.csv", candidates_df)
+
+        # 2. Add stage record
+        new_stage = pd.DataFrame([{
+            "candidate_id": new_cid,
+            "stage_name": stage_name or "Applied",
+            "status": stage_status or "In Progress",
+            "stage_date": applied_date
+        }])
+        stages_df = pd.concat([stages_df, new_stage], ignore_index=True)
+        save_csv("recruitment_stages.csv", stages_df)
+
+        # 3. Add offer record if provided
+        if offer_salary is not None and str(offer_salary).strip() != "":
+            try:
+                salary_val = float(offer_salary)
+                accepted_val = True if str(offer_accepted).lower() in ["true", "1", "yes", "accepted"] else (False if str(offer_accepted).lower() in ["false", "0", "no", "declined"] else False)
+                new_offer = pd.DataFrame([{
+                    "candidate_id": new_cid,
+                    "offer_date": applied_date,
+                    "salary": salary_val,
+                    "accepted": accepted_val
+                }])
+                offers_df = pd.concat([offers_df, new_offer], ignore_index=True)
+                save_csv("offers.csv", offers_df)
+            except Exception:
+                pass
+
+        return jsonify({
+            "status": "success",
+            "message": f"Candidate '{full_name}' added successfully!",
+            "candidate_id": new_cid
+        })
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route("/api/candidate/<cid>", methods=["PUT"])
+@app.route("/api/candidate/<cid>/update", methods=["POST"])
+def api_update_candidate(cid):
+    """Update candidate details, stage, and offer compensation."""
+    try:
+        from datetime import date
+
+        body = request.get_json() or {}
+        full_name = str(body.get("full_name", "")).strip()
+        email = str(body.get("email", "")).strip()
+        phone = str(body.get("phone", "")).strip()
+        department = str(body.get("department", "")).strip()
+        applied_date = str(body.get("applied_date", "")).strip()
+        stage_name = str(body.get("stage_name", "")).strip()
+        stage_status = str(body.get("stage_status", "")).strip()
+        offer_salary = body.get("offer_salary")
+        offer_accepted = body.get("offer_accepted")
+
+        data = load_dataset()
+        candidates_df = data["candidates"]
+        stages_df = data["stages"]
+        offers_df = data["offers"]
+
+        mask = candidates_df["candidate_id"].astype(str) == str(cid)
+        if not mask.any():
+            return jsonify({"status": "error", "message": f"Candidate with ID #{cid} not found."}), 404
+
+        if full_name:
+            candidates_df.loc[mask, "full_name"] = full_name
+        if email:
+            candidates_df.loc[mask, "email"] = email
+        if phone is not None:
+            candidates_df.loc[mask, "phone"] = phone
+        if department:
+            candidates_df.loc[mask, "department"] = department
+        if applied_date:
+            candidates_df.loc[mask, "applied_date"] = applied_date
+
+        save_csv("candidates.csv", candidates_df)
+
+        # Update recruitment stages
+        if stage_name:
+            cand_stages = stages_df[stages_df["candidate_id"].astype(str) == str(cid)]
+            if not cand_stages.empty and cand_stages.iloc[-1]["stage_name"] == stage_name:
+                # Update status of existing current stage
+                last_idx = cand_stages.index[-1]
+                if stage_status:
+                    stages_df.loc[last_idx, "status"] = stage_status
+            else:
+                # Add new stage progression step
+                new_stage = pd.DataFrame([{
+                    "candidate_id": cid,
+                    "stage_name": stage_name,
+                    "status": stage_status or "In Progress",
+                    "stage_date": applied_date or date.today().isoformat()
+                }])
+                stages_df = pd.concat([stages_df, new_stage], ignore_index=True)
+            save_csv("recruitment_stages.csv", stages_df)
+
+        # Update offer information if salary specified
+        if offer_salary is not None and str(offer_salary).strip() != "":
+            try:
+                salary_val = float(offer_salary)
+                accepted_val = True if str(offer_accepted).lower() in ["true", "1", "yes", "accepted"] else (False if str(offer_accepted).lower() in ["false", "0", "no", "declined"] else False)
+                o_mask = offers_df["candidate_id"].astype(str) == str(cid)
+                if o_mask.any():
+                    offers_df.loc[o_mask, "salary"] = salary_val
+                    offers_df.loc[o_mask, "accepted"] = accepted_val
+                else:
+                    new_offer = pd.DataFrame([{
+                        "candidate_id": cid,
+                        "offer_date": applied_date or date.today().isoformat(),
+                        "salary": salary_val,
+                        "accepted": accepted_val
+                    }])
+                    offers_df = pd.concat([offers_df, new_offer], ignore_index=True)
+                save_csv("offers.csv", offers_df)
+            except Exception:
+                pass
+
+        return jsonify({"status": "success", "message": f"Candidate #{cid} updated successfully!"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route("/api/candidate/<cid>", methods=["DELETE"])
+@app.route("/api/candidate/<cid>/delete", methods=["POST"])
+def api_delete_candidate(cid):
+    """Delete candidate and all associated pipeline records."""
+    try:
+        data = load_dataset()
+        candidates_df = data["candidates"]
+        stages_df = data["stages"]
+        offers_df = data["offers"]
+        interviews_df = data["interviews"]
+        onboarding_df = data["onboarding"]
+
+        mask = candidates_df["candidate_id"].astype(str) == str(cid)
+        if not mask.any():
+            return jsonify({"status": "error", "message": f"Candidate #{cid} not found."}), 404
+
+        cand_name = candidates_df.loc[mask, "full_name"].values[0] if "full_name" in candidates_df.columns else cid
+
+        # Remove candidate from candidates
+        candidates_df = candidates_df[~mask]
+        save_csv("candidates.csv", candidates_df)
+
+        # Remove candidate from stages
+        if not stages_df.empty and "candidate_id" in stages_df.columns:
+            stages_df = stages_df[stages_df["candidate_id"].astype(str) != str(cid)]
+            save_csv("recruitment_stages.csv", stages_df)
+
+        # Remove candidate from offers
+        if not offers_df.empty and "candidate_id" in offers_df.columns:
+            offers_df = offers_df[offers_df["candidate_id"].astype(str) != str(cid)]
+            save_csv("offers.csv", offers_df)
+
+        # Remove candidate from interviews
+        if not interviews_df.empty and "candidate_id" in interviews_df.columns:
+            interviews_df = interviews_df[interviews_df["candidate_id"].astype(str) != str(cid)]
+            save_csv("interviews.csv", interviews_df)
+
+        # Remove candidate from onboarding
+        if not onboarding_df.empty and "candidate_id" in onboarding_df.columns:
+            onboarding_df = onboarding_df[onboarding_df["candidate_id"].astype(str) != str(cid)]
+            save_csv("onboarding.csv", onboarding_df)
+
+        return jsonify({"status": "success", "message": f"Candidate '{cand_name}' (#{cid}) deleted successfully."})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 

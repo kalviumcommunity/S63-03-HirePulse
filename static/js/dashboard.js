@@ -421,6 +421,7 @@ document.addEventListener("DOMContentLoaded", () => {
             else if (c.stage_status === "Dropped") statusClass = "status-dropped";
 
             const offerStr = c.offer_salary ? `$${c.offer_salary.toLocaleString()} (${c.offer_accepted ? 'Accepted' : 'Pending'})` : 'No Offer';
+            const safeName = (c.full_name || 'Candidate').replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
             return `
                 <tr>
@@ -432,9 +433,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     <td><span class="status-pill ${statusClass}">${c.stage_status}</span></td>
                     <td>${offerStr}</td>
                     <td>
-                        <button class="btn-detail" onclick="viewCandidateDetails(${c.candidate_id})">
-                            View Journey
-                        </button>
+                        <div class="action-btn-group">
+                            <button class="btn-action view" onclick="viewCandidateDetails('${c.candidate_id}')" title="View Candidate Journey">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button class="btn-action edit" onclick="openEditCandidateModal('${c.candidate_id}')" title="Edit Candidate">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button class="btn-action delete" onclick="openDeleteCandidateModal('${c.candidate_id}', '${safeName}')" title="Delete Candidate">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             `;
@@ -471,18 +480,235 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 7. Candidate Modal
+    // 7. Modals and Candidate Management (CRUD)
+    let candidatePendingDeleteId = null;
+
     function setupModal() {
-        const modal = document.getElementById("candidateModal");
-        const closeBtn = document.getElementById("closeModalBtn");
-
-        closeBtn?.addEventListener("click", () => {
-            modal?.classList.remove("show");
+        // Detail modal close
+        const detailModal = document.getElementById("candidateModal");
+        const closeDetailBtn = document.getElementById("closeModalBtn");
+        closeDetailBtn?.addEventListener("click", () => detailModal?.classList.remove("show"));
+        detailModal?.addEventListener("click", (e) => {
+            if (e.target === detailModal) detailModal.classList.remove("show");
         });
 
-        modal?.addEventListener("click", (e) => {
-            if (e.target === modal) modal.classList.remove("show");
+        // Form modal close
+        const formModal = document.getElementById("candidateFormModal");
+        const closeFormBtn = document.getElementById("closeCandidateFormModalBtn");
+        const cancelFormBtn = document.getElementById("cancelCandidateFormBtn");
+        closeFormBtn?.addEventListener("click", () => formModal?.classList.remove("show"));
+        cancelFormBtn?.addEventListener("click", () => formModal?.classList.remove("show"));
+        formModal?.addEventListener("click", (e) => {
+            if (e.target === formModal) formModal.classList.remove("show");
         });
+
+        // Delete modal close
+        const deleteModal = document.getElementById("deleteConfirmModal");
+        const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+        cancelDeleteBtn?.addEventListener("click", () => deleteModal?.classList.remove("show"));
+        deleteModal?.addEventListener("click", (e) => {
+            if (e.target === deleteModal) deleteModal.classList.remove("show");
+        });
+
+        // Add candidate trigger button
+        const addBtn = document.getElementById("addCandidateBtn");
+        addBtn?.addEventListener("click", openAddCandidateModal);
+
+        // Candidate form submit
+        const form = document.getElementById("candidateForm");
+        form?.addEventListener("submit", handleCandidateFormSubmit);
+
+        // Delete confirm button
+        const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+        confirmDeleteBtn?.addEventListener("click", handleCandidateDelete);
+    }
+
+    // Open Add Candidate Modal
+    function openAddCandidateModal() {
+        const modal = document.getElementById("candidateFormModal");
+        const title = document.getElementById("candidateFormModalTitle");
+        const subtitle = document.getElementById("candidateFormModalSubtitle");
+        const form = document.getElementById("candidateForm");
+        
+        if (title) title.innerHTML = '<i class="fa-solid fa-user-plus"></i> Add New Candidate';
+        if (subtitle) subtitle.textContent = 'Enter candidate details to add them to the active recruitment pipeline.';
+        if (form) form.reset();
+
+        document.getElementById("formCandidateId").value = "";
+        
+        // Default today's date
+        const todayStr = new Date().toISOString().split("T")[0];
+        document.getElementById("formAppliedDate").value = todayStr;
+        document.getElementById("formStageName").value = "Applied";
+        document.getElementById("formStageStatus").value = "In Progress";
+        document.getElementById("formOfferAccepted").value = "false";
+
+        modal?.classList.add("show");
+    }
+
+    // Open Edit Candidate Modal
+    window.openEditCandidateModal = async function(cid) {
+        try {
+            const res = await fetch(`/api/candidate/${cid}`);
+            const json = await res.json();
+            if (json.status !== "success") {
+                showToast(json.message || "Failed to load candidate details", "error");
+                return;
+            }
+
+            const c = json.candidate;
+            const stages = json.stages || [];
+            const offers = json.offers || [];
+
+            const modal = document.getElementById("candidateFormModal");
+            const title = document.getElementById("candidateFormModalTitle");
+            const subtitle = document.getElementById("candidateFormModalSubtitle");
+
+            if (title) title.innerHTML = `<i class="fa-solid fa-user-pen"></i> Edit Candidate #${cid}`;
+            if (subtitle) subtitle.textContent = `Update recruitment records and profile for ${c.full_name}.`;
+
+            document.getElementById("formCandidateId").value = cid;
+            document.getElementById("formFullName").value = c.full_name || "";
+            document.getElementById("formEmail").value = c.email || "";
+            document.getElementById("formPhone").value = c.phone || "";
+            document.getElementById("formDepartment").value = c.department || "Engineering";
+            document.getElementById("formAppliedDate").value = c.applied_date || "";
+
+            const lastStage = stages.length > 0 ? stages[stages.length - 1] : null;
+            document.getElementById("formStageName").value = lastStage ? lastStage.stage_name : "Applied";
+            document.getElementById("formStageStatus").value = lastStage ? lastStage.status : "In Progress";
+
+            const offer = offers.length > 0 ? offers[0] : null;
+            document.getElementById("formOfferSalary").value = offer ? (offer.salary || "") : "";
+            document.getElementById("formOfferAccepted").value = offer && offer.accepted ? "true" : "false";
+
+            modal?.classList.add("show");
+        } catch (err) {
+            console.error("Error opening edit modal:", err);
+            showToast("Failed to fetch candidate for editing.", "error");
+        }
+    };
+
+    // Open Delete Candidate Modal
+    window.openDeleteCandidateModal = function(cid, name) {
+        candidatePendingDeleteId = cid;
+        document.getElementById("deleteCandidateName").textContent = name || "Candidate";
+        document.getElementById("deleteCandidateId").textContent = `#${cid}`;
+        document.getElementById("deleteConfirmModal")?.classList.add("show");
+    };
+
+    // Handle Form Submit (Add / Edit)
+    async function handleCandidateFormSubmit(e) {
+        e.preventDefault();
+        const cid = document.getElementById("formCandidateId").value;
+        const fullName = document.getElementById("formFullName").value.trim();
+        const email = document.getElementById("formEmail").value.trim();
+        const phone = document.getElementById("formPhone").value.trim();
+        const department = document.getElementById("formDepartment").value;
+        const appliedDate = document.getElementById("formAppliedDate").value;
+        const stageName = document.getElementById("formStageName").value;
+        const stageStatus = document.getElementById("formStageStatus").value;
+        const offerSalary = document.getElementById("formOfferSalary").value;
+        const offerAccepted = document.getElementById("formOfferAccepted").value === "true";
+
+        if (!fullName || !email) {
+            showToast("Full name and email are required.", "error");
+            return;
+        }
+
+        const payload = {
+            full_name: fullName,
+            email: email,
+            phone: phone,
+            department: department,
+            applied_date: appliedDate,
+            stage_name: stageName,
+            stage_status: stageStatus,
+            offer_salary: offerSalary ? parseFloat(offerSalary) : null,
+            offer_accepted: offerAccepted
+        };
+
+        const saveBtn = document.getElementById("saveCandidateBtn");
+        const originalBtnHtml = saveBtn.innerHTML;
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+
+        try {
+            const url = cid ? `/api/candidate/${cid}` : "/api/candidate";
+            const method = cid ? "PUT" : "POST";
+
+            const res = await fetch(url, {
+                method: method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const json = await res.json();
+            if (json.status === "success") {
+                document.getElementById("candidateFormModal")?.classList.remove("show");
+                showToast(json.message || (cid ? "Candidate updated!" : "Candidate added!"), "success");
+                await loadDashboardData();
+            } else {
+                showToast(json.message || "An error occurred.", "error");
+            }
+        } catch (err) {
+            console.error("Error saving candidate:", err);
+            showToast("Failed to save candidate. Please try again.", "error");
+        } finally {
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = originalBtnHtml;
+        }
+    }
+
+    // Handle Delete Execution
+    async function handleCandidateDelete() {
+        if (!candidatePendingDeleteId) return;
+
+        const deleteBtn = document.getElementById("confirmDeleteBtn");
+        const originalBtnHtml = deleteBtn.innerHTML;
+        deleteBtn.disabled = true;
+        deleteBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Deleting...';
+
+        try {
+            const res = await fetch(`/api/candidate/${candidatePendingDeleteId}`, {
+                method: "DELETE"
+            });
+            const json = await res.json();
+
+            if (json.status === "success") {
+                document.getElementById("deleteConfirmModal")?.classList.remove("show");
+                showToast(json.message || "Candidate deleted successfully.", "success");
+                candidatePendingDeleteId = null;
+                await loadDashboardData();
+            } else {
+                showToast(json.message || "Failed to delete candidate.", "error");
+            }
+        } catch (err) {
+            console.error("Error deleting candidate:", err);
+            showToast("Network error while deleting candidate.", "error");
+        } finally {
+            deleteBtn.disabled = false;
+            deleteBtn.innerHTML = originalBtnHtml;
+        }
+    }
+
+    // Toast Notification helper
+    function showToast(message, type = "success") {
+        const container = document.getElementById("toastContainer");
+        if (!container) return;
+
+        const toast = document.createElement("div");
+        toast.className = `toast toast-${type}`;
+        const iconClass = type === "success" ? "fa-circle-check" : "fa-triangle-exclamation";
+        toast.innerHTML = `<i class="fa-solid ${iconClass}"></i> <span>${message}</span>`;
+
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = "0";
+            toast.style.transform = "translateY(20px)";
+            setTimeout(() => toast.remove(), 300);
+        }, 3500);
     }
 
     window.viewCandidateDetails = async function(cid) {
@@ -501,9 +727,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const body = document.getElementById("modalCandidateContent");
                 body.innerHTML = `
-                    <div style="margin-bottom: 1.5rem;">
-                        <p><strong>Email:</strong> ${c.email} | <strong>Phone:</strong> ${c.phone}</p>
-                        <p><strong>Application Date:</strong> ${c.applied_date}</p>
+                    <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                        <div>
+                            <p style="margin-bottom: 4px;"><strong>Email:</strong> ${c.email} &nbsp;|&nbsp; <strong>Phone:</strong> ${c.phone || 'N/A'}</p>
+                            <p><strong>Application Date:</strong> ${c.applied_date || 'N/A'}</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn-detail" onclick="document.getElementById('candidateModal').classList.remove('show'); openEditCandidateModal('${c.candidate_id}')">
+                                <i class="fa-solid fa-pen-to-square"></i> Edit Profile
+                            </button>
+                        </div>
                     </div>
 
                     <h4 style="margin-bottom: 0.75rem;">Recruitment Stages</h4>
@@ -542,6 +775,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (err) {
             console.error("Error viewing candidate:", err);
+            showToast("Failed to fetch candidate details.", "error");
         }
     };
 });
