@@ -3,41 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HirePulse - Recruitment Analytics Dashboard</title>
-    <!-- Google Fonts -->
+    <title>HirePulse — Recruitment & Talent Pipeline Analytics</title>
+    <!-- Google Fonts (Plus Jakarta Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Stylesheet -->
+    <!-- Main Stylesheet -->
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <!-- Top Navbar -->
+    <!-- Top Workspace Navbar -->
     <header class="navbar">
         <div class="nav-brand">
-            <div class="logo-icon">
+            <div class="brand-glyph">
                 <i class="fa-solid fa-chart-simple"></i>
             </div>
-            <div class="brand-text">
+            <div class="brand-meta">
                 <h1>HirePulse</h1>
-                <span class="badge-tag">Recruitment Analytics</span>
+                <span class="org-tag">Talent Operations</span>
             </div>
         </div>
 
         <div class="nav-actions">
-            <div class="live-status">
+            <div class="pipeline-pill">
                 <span class="status-dot"></span>
-                <span>Live Pipeline</span>
+                <span>Active Pipeline</span>
             </div>
-            <button id="themeToggle" class="btn-icon" title="Toggle Theme">
+            <button id="themeToggle" class="btn-icon-subtle" title="Toggle Light/Dark Theme">
                 <i class="fa-solid fa-moon"></i>
             </button>
             <button id="refreshBtn" class="btn-primary">
-                <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                <i class="fa-solid fa-arrows-rotate"></i>
+                <span>Sync Data</span>
             </button>
         </div>
     </header>
@@ -45,128 +46,140 @@
     <div class="dashboard-container">
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
-            <nav class="nav-menu">
-                <button class="nav-item active" data-tab="overview">
-                    <i class="fa-solid fa-gauge-high"></i>
-                    <span>Overview & Funnel</span>
-                </button>
-                <button class="nav-item" data-tab="departments">
-                    <i class="fa-solid fa-building"></i>
-                    <span>Department Analytics</span>
-                </button>
-                <button class="nav-item" data-tab="candidates">
-                    <i class="fa-solid fa-users"></i>
-                    <span>Candidate Explorer</span>
-                </button>
-                <button class="nav-item" data-tab="anomalies">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <span>Anomaly Monitor</span>
-                    <span id="anomalyBadge" class="pill-badge">0</span>
-                </button>
-            </nav>
+            <div>
+                <div class="nav-section-title">Analytics & Pipeline</div>
+                <nav class="nav-menu">
+                    <button class="nav-item active" data-tab="overview">
+                        <div class="nav-item-content">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <span>Overview & Funnel</span>
+                        </div>
+                    </button>
+                    <button class="nav-item" data-tab="departments">
+                        <div class="nav-item-content">
+                            <i class="fa-solid fa-building-user"></i>
+                            <span>Departments</span>
+                        </div>
+                    </button>
+                    <button class="nav-item" data-tab="candidates">
+                        <div class="nav-item-content">
+                            <i class="fa-solid fa-address-book"></i>
+                            <span>Candidate Explorer</span>
+                        </div>
+                    </button>
+                    <button class="nav-item" data-tab="anomalies">
+                        <div class="nav-item-content">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Anomaly Monitor</span>
+                        </div>
+                        <span id="anomalyBadge" class="count-pill">0</span>
+                    </button>
+                </nav>
+            </div>
 
             <div class="sidebar-footer">
-                <div class="engine-card">
-                    <div class="engine-title">Data Pipeline</div>
-                    <div class="engine-sub">Phase 1 & 2 Engine Active</div>
-                    <div class="engine-progress">
-                        <div class="progress-bar" style="width: 100%"></div>
+                <div class="system-status-widget">
+                    <div class="system-status-title">
+                        <span>Data Engine</span>
+                        <span style="color: var(--status-success); font-size: 0.72rem;">Operational</span>
                     </div>
+                    <div class="system-status-sub">PostgreSQL & CSV Layer Connected</div>
                 </div>
             </div>
         </aside>
 
         <!-- Main Content Area -->
         <main class="main-content">
-            <!-- TAB 1: OVERVIEW & FUNNEL -->
+            <!-- TAB 1: EXECUTIVE OVERVIEW & FUNNEL -->
             <section id="tab-overview" class="tab-pane active">
                 <div class="section-header">
                     <div>
-                        <h2>Executive Recruitment Overview</h2>
-                        <p class="subtitle">Real-time candidate metrics, funnel progression, and hiring velocity.</p>
+                        <h2 class="section-title">Recruitment Pipeline Overview</h2>
+                        <p class="section-subtitle">Real-time candidate metrics, funnel progression, and hiring velocity.</p>
                     </div>
-                    <div class="quick-stats-pill">
-                        <span id="overviewDateRange">Data Synchronized</span>
+                    <div class="meta-chip">
+                        <i class="fa-regular fa-clock" style="margin-right: 4px;"></i> Live Synchronized
                     </div>
                 </div>
 
-                <!-- KPI Cards Grid -->
+                <!-- KPI Metrics Grid -->
                 <div class="kpi-grid">
-                    <div class="kpi-card glass-card">
-                        <div class="kpi-icon blue">
-                            <i class="fa-solid fa-user-plus"></i>
-                        </div>
-                        <div class="kpi-data">
+                    <div class="card-panel kpi-card">
+                        <div class="kpi-card-header">
                             <span class="kpi-label">Total Applied</span>
-                            <h3 id="metricTotalCandidates">--</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> Inbound Pool</span>
+                            <div class="kpi-icon-badge blue"><i class="fa-solid fa-user-group"></i></div>
+                        </div>
+                        <h3 class="kpi-value" id="metricTotalCandidates">--</h3>
+                        <div class="kpi-footer positive">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <span>Inbound candidate pool</span>
                         </div>
                     </div>
 
-                    <div class="kpi-card glass-card">
-                        <div class="kpi-icon purple">
-                            <i class="fa-solid fa-envelope-open-text"></i>
+                    <div class="card-panel kpi-card">
+                        <div class="kpi-card-header">
+                            <span class="kpi-label">Offers Extended</span>
+                            <div class="kpi-icon-badge purple"><i class="fa-solid fa-paper-plane"></i></div>
                         </div>
-                        <div class="kpi-data">
-                            <span class="kpi-label">Offers Sent</span>
-                            <h3 id="metricOffersSent">--</h3>
-                            <span class="kpi-subtext" id="metricOfferAcceptance">--% Acceptance</span>
+                        <h3 class="kpi-value" id="metricOffersSent">--</h3>
+                        <div class="kpi-footer neutral" id="metricOfferAcceptance">
+                            <span>--% Acceptance rate</span>
                         </div>
                     </div>
 
-                    <div class="kpi-card glass-card">
-                        <div class="kpi-icon green">
-                            <i class="fa-solid fa-circle-check"></i>
-                        </div>
-                        <div class="kpi-data">
+                    <div class="card-panel kpi-card">
+                        <div class="kpi-card-header">
                             <span class="kpi-label">Joined / Hired</span>
-                            <h3 id="metricJoined">--</h3>
-                            <span class="kpi-trend positive" id="metricConversionRate">--% Conversion</span>
+                            <div class="kpi-icon-badge green"><i class="fa-solid fa-circle-check"></i></div>
+                        </div>
+                        <h3 class="kpi-value" id="metricJoined">--</h3>
+                        <div class="kpi-footer positive" id="metricConversionRate">
+                            <i class="fa-solid fa-check-double"></i>
+                            <span>--% Overall conversion</span>
                         </div>
                     </div>
 
-                    <div class="kpi-card glass-card">
-                        <div class="kpi-icon orange">
-                            <i class="fa-solid fa-stopwatch"></i>
-                        </div>
-                        <div class="kpi-data">
+                    <div class="card-panel kpi-card">
+                        <div class="kpi-card-header">
                             <span class="kpi-label">Avg. Time-to-Hire</span>
-                            <h3 id="metricTimeToHire">-- <small>days</small></h3>
-                            <span class="kpi-subtext">Application to Joining</span>
+                            <div class="kpi-icon-badge amber"><i class="fa-solid fa-stopwatch"></i></div>
+                        </div>
+                        <h3 class="kpi-value" id="metricTimeToHire">-- <small>days</small></h3>
+                        <div class="kpi-footer neutral">
+                            <span>Application to joining</span>
                         </div>
                     </div>
 
-                    <div class="kpi-card glass-card">
-                        <div class="kpi-icon teal">
-                            <i class="fa-solid fa-money-bill-wave"></i>
-                        </div>
-                        <div class="kpi-data">
+                    <div class="card-panel kpi-card">
+                        <div class="kpi-card-header">
                             <span class="kpi-label">Avg. Offer Salary</span>
-                            <h3 id="metricAvgSalary">--</h3>
-                            <span class="kpi-subtext">Across all hires</span>
+                            <div class="kpi-icon-badge teal"><i class="fa-solid fa-dollar-sign"></i></div>
+                        </div>
+                        <h3 class="kpi-value" id="metricAvgSalary">--</h3>
+                        <div class="kpi-footer neutral">
+                            <span>Across all hired candidates</span>
                         </div>
                     </div>
 
-                    <div class="kpi-card glass-card">
-                        <div class="kpi-icon indigo">
-                            <i class="fa-solid fa-ranking-star"></i>
-                        </div>
-                        <div class="kpi-data">
+                    <div class="card-panel kpi-card">
+                        <div class="kpi-card-header">
                             <span class="kpi-label">Top Department</span>
-                            <h3 id="metricTopDept">--</h3>
-                            <span class="kpi-subtext">Highest Applications</span>
+                            <div class="kpi-icon-badge indigo"><i class="fa-solid fa-layer-group"></i></div>
+                        </div>
+                        <h3 class="kpi-value" id="metricTopDept" style="font-size: 1.25rem;">--</h3>
+                        <div class="kpi-footer neutral">
+                            <span>Highest inbound volume</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Funnel & Timeline Charts Grid -->
+                <!-- Charts: Funnel & Inflow Timeline -->
                 <div class="charts-grid two-columns">
-                    <!-- Funnel Stage Progression -->
-                    <div class="chart-card glass-card">
-                        <div class="chart-header">
+                    <div class="card-panel chart-card">
+                        <div class="chart-card-header">
                             <div>
-                                <h3>Recruitment Funnel & Drop-Offs</h3>
-                                <p class="chart-sub">Candidate conversion through hiring pipeline</p>
+                                <h3 class="chart-card-title">Hiring Funnel & Conversion</h3>
+                                <p class="chart-card-subtitle">Candidate progression through pipeline milestones</p>
                             </div>
                         </div>
                         <div class="chart-wrapper">
@@ -177,12 +190,11 @@
                         </div>
                     </div>
 
-                    <!-- Application Trend Chart -->
-                    <div class="chart-card glass-card">
-                        <div class="chart-header">
+                    <div class="card-panel chart-card">
+                        <div class="chart-card-header">
                             <div>
-                                <h3>Application Inflow Trend</h3>
-                                <p class="chart-sub">Monthly candidate intake velocity</p>
+                                <h3 class="chart-card-title">Application Intake Trend</h3>
+                                <p class="chart-card-subtitle">Monthly inbound volume over time</p>
                             </div>
                         </div>
                         <div class="chart-wrapper">
@@ -196,24 +208,30 @@
             <section id="tab-departments" class="tab-pane">
                 <div class="section-header">
                     <div>
-                        <h2>Department Hiring Breakdown</h2>
-                        <p class="subtitle">Applications, offers, conversion rates, and salary benchmarks per department.</p>
+                        <h2 class="section-title">Department Hiring Performance</h2>
+                        <p class="section-subtitle">Benchmarking application volume, conversion velocity, and compensation by department.</p>
                     </div>
                 </div>
 
                 <div class="charts-grid two-columns">
-                    <div class="chart-card glass-card">
-                        <div class="chart-header">
-                            <h3>Candidates vs. Offers by Department</h3>
+                    <div class="card-panel chart-card">
+                        <div class="chart-card-header">
+                            <div>
+                                <h3 class="chart-card-title">Applications vs. Offers by Department</h3>
+                                <p class="chart-card-subtitle">Headcount progression per department</p>
+                            </div>
                         </div>
                         <div class="chart-wrapper">
                             <canvas id="departmentChart"></canvas>
                         </div>
                     </div>
 
-                    <div class="chart-card glass-card">
-                        <div class="chart-header">
-                            <h3>Average Offered Compensation ($)</h3>
+                    <div class="card-panel chart-card">
+                        <div class="chart-card-header">
+                            <div>
+                                <h3 class="chart-card-title">Average Compensation Benchmark</h3>
+                                <p class="chart-card-subtitle">Average accepted salary offered per department</p>
+                            </div>
                         </div>
                         <div class="chart-wrapper">
                             <canvas id="salaryChart"></canvas>
@@ -221,10 +239,10 @@
                     </div>
                 </div>
 
-                <!-- Department Table -->
-                <div class="table-card glass-card">
+                <!-- Department Breakdown Table -->
+                <div class="card-panel table-card">
                     <div class="table-header">
-                        <h3>Department Metrics Table</h3>
+                        <h3 class="table-title">Department Performance Table</h3>
                     </div>
                     <div class="table-responsive">
                         <table class="data-table" id="deptTable">
@@ -249,27 +267,28 @@
 
             <!-- TAB 3: CANDIDATE EXPLORER -->
             <section id="tab-candidates" class="tab-pane">
-                <div class="section-header flex-between">
+                <div class="section-header">
                     <div>
-                        <h2>Candidate Explorer</h2>
-                        <p class="subtitle">Search, filter, manage, and inspect detailed profiles across the recruitment funnel.</p>
+                        <h2 class="section-title">Candidate Explorer</h2>
+                        <p class="section-subtitle">Search, filter, manage, and inspect profiles across the hiring lifecycle.</p>
                     </div>
                     <button id="addCandidateBtn" class="btn-primary">
-                        <i class="fa-solid fa-user-plus"></i> Add Candidate
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add Candidate</span>
                     </button>
                 </div>
 
-                <!-- Filters Bar -->
-                <div class="filter-bar glass-card">
+                <!-- Filter Toolbar -->
+                <div class="card-panel filter-bar">
                     <div class="search-box">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" id="candidateSearchInput" placeholder="Search by name, email, ID...">
+                        <input type="text" id="candidateSearchInput" placeholder="Search by name, email, or candidate ID...">
                     </div>
                     <div class="filter-group">
-                        <select id="departmentFilter">
+                        <select id="departmentFilter" class="filter-select">
                             <option value="">All Departments</option>
                         </select>
-                        <select id="stageFilter">
+                        <select id="stageFilter" class="filter-select">
                             <option value="">All Stages</option>
                             <option value="Applied">Applied</option>
                             <option value="Screening">Screening</option>
@@ -278,32 +297,32 @@
                             <option value="Offer Sent">Offer Sent</option>
                             <option value="Joined">Joined</option>
                         </select>
-                        <select id="statusFilter">
+                        <select id="statusFilter" class="filter-select">
                             <option value="">All Statuses</option>
                             <option value="Completed">Completed</option>
                             <option value="In Progress">In Progress</option>
-                            <option value="Dropped">Dropped</option>
                             <option value="Pending">Pending</option>
+                            <option value="Dropped">Dropped</option>
                         </select>
                     </div>
                 </div>
 
                 <!-- Candidates Table -->
-                <div class="table-card glass-card">
-                    <div class="table-header flex-between">
-                        <h3>Candidate Records (<span id="candidateCountDisplay">0</span>)</h3>
+                <div class="card-panel table-card">
+                    <div class="table-header">
+                        <h3 class="table-title">Candidate Directory (<span id="candidateCountDisplay">0</span>)</h3>
                     </div>
                     <div class="table-responsive">
                         <table class="data-table">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Candidate Name</th>
+                                    <th>Candidate</th>
                                     <th>Department</th>
                                     <th>Applied Date</th>
                                     <th>Current Stage</th>
                                     <th>Stage Status</th>
-                                    <th>Offer / Salary</th>
+                                    <th>Offer & Salary</th>
                                     <th style="text-align: right;">Actions</th>
                                 </tr>
                             </thead>
@@ -315,12 +334,12 @@
                 </div>
             </section>
 
-            <!-- TAB 4: ANOMALIES & AUDIT -->
+            <!-- TAB 4: ANOMALY MONITOR -->
             <section id="tab-anomalies" class="tab-pane">
                 <div class="section-header">
                     <div>
-                        <h2>Anomaly Detection & Pipeline Health</h2>
-                        <p class="subtitle">Automated outlier detection, salary discrepancies, and pipeline bottlenecks.</p>
+                        <h2 class="section-title">Anomaly Detection & Pipeline Health</h2>
+                        <p class="section-subtitle">Automated outlier detection, compensation discrepancies, and hiring bottlenecks.</p>
                     </div>
                 </div>
 
@@ -331,31 +350,31 @@
         </main>
     </div>
 
-    <!-- Candidate Detail Modal -->
+    <!-- Candidate Detail Journey Modal -->
     <div id="candidateModal" class="modal-backdrop">
-        <div class="modal-content glass-card">
+        <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title-wrap">
-                    <h3 id="modalCandidateName">Candidate Details</h3>
-                    <span id="modalCandidateDept" class="badge-dept">Department</span>
+                    <h3 id="modalCandidateName">Candidate Profile</h3>
+                    <p class="modal-subtitle" id="modalCandidateDept">Department</p>
                 </div>
-                <button id="closeModalBtn" class="btn-icon">&times;</button>
+                <button id="closeModalBtn" class="btn-icon-subtle">&times;</button>
             </div>
             <div class="modal-body" id="modalCandidateContent">
-                <!-- Dynamic detail info -->
+                <!-- Dynamic detail journey info -->
             </div>
         </div>
     </div>
 
-    <!-- Candidate Add / Edit Modal -->
+    <!-- Add / Edit Candidate Form Modal -->
     <div id="candidateFormModal" class="modal-backdrop">
-        <div class="modal-content glass-card">
+        <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title-wrap">
-                    <h3 id="candidateFormModalTitle"><i class="fa-solid fa-user-pen"></i> Add New Candidate</h3>
-                    <p class="modal-subtitle" id="candidateFormModalSubtitle">Fill in candidate details to add them to the recruitment pipeline.</p>
+                    <h3 id="candidateFormModalTitle"><i class="fa-solid fa-user-plus" style="margin-right: 6px; color: var(--brand-primary);"></i> Add Candidate</h3>
+                    <p class="modal-subtitle" id="candidateFormModalSubtitle">Enter candidate details to track in the recruitment pipeline.</p>
                 </div>
-                <button id="closeCandidateFormModalBtn" class="btn-icon">&times;</button>
+                <button id="closeCandidateFormModalBtn" class="btn-icon-subtle">&times;</button>
             </div>
             <form id="candidateForm" class="modal-body">
                 <input type="hidden" id="formCandidateId" value="">
@@ -408,7 +427,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="formStageName">Pipeline Stage</label>
+                        <label for="formStageName">Hiring Stage</label>
                         <select id="formStageName" class="form-control">
                             <option value="Applied">Applied</option>
                             <option value="Screening">Screening</option>
@@ -438,7 +457,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="formOfferAccepted">Offer Status</label>
+                        <label for="formOfferAccepted">Offer Decision</label>
                         <select id="formOfferAccepted" class="form-control">
                             <option value="false">Pending / Offer Extended</option>
                             <option value="true">Accepted</option>
@@ -450,7 +469,8 @@
                 <div class="modal-footer">
                     <button type="button" id="cancelCandidateFormBtn" class="btn-secondary">Cancel</button>
                     <button type="submit" id="saveCandidateBtn" class="btn-primary">
-                        <i class="fa-solid fa-check"></i> Save Candidate
+                        <i class="fa-solid fa-check"></i>
+                        <span>Save Candidate</span>
                     </button>
                 </div>
             </form>
@@ -459,20 +479,21 @@
 
     <!-- Candidate Delete Confirmation Modal -->
     <div id="deleteConfirmModal" class="modal-backdrop">
-        <div class="modal-content glass-card delete-modal-content">
+        <div class="modal-content delete-modal-content">
             <div class="delete-icon-wrap">
                 <i class="fa-solid fa-trash-can"></i>
             </div>
-            <h3 class="delete-modal-title">Delete Candidate</h3>
+            <h3 class="delete-modal-title">Delete Candidate Record</h3>
             <p class="delete-modal-msg">
-                Are you sure you want to delete candidate <strong id="deleteCandidateName">Candidate Name</strong> (<span id="deleteCandidateId">#ID</span>)?
+                Are you sure you want to permanently delete <strong id="deleteCandidateName" style="color: var(--text-primary);">Candidate Name</strong> (<span id="deleteCandidateId">#ID</span>)?
                 <br><br>
-                <span class="danger-warning">All related stage progression, interview notes, and offer records will be permanently removed.</span>
+                <span class="danger-warning">All interview notes, pipeline progress, and compensation records will be removed.</span>
             </p>
-            <div class="modal-footer justify-center">
+            <div class="modal-footer" style="justify-content: center;">
                 <button type="button" id="cancelDeleteBtn" class="btn-secondary">Cancel</button>
                 <button type="button" id="confirmDeleteBtn" class="btn-danger">
-                    <i class="fa-solid fa-trash"></i> Delete Candidate
+                    <i class="fa-solid fa-trash"></i>
+                    <span>Delete Record</span>
                 </button>
             </div>
         </div>
@@ -481,7 +502,7 @@
     <!-- Toast Notification Container -->
     <div id="toastContainer" class="toast-container"></div>
 
-    <!-- Script -->
+    <!-- Main Client Script -->
     <script src="/static/js/dashboard.js"></script>
 </body>
 </html>

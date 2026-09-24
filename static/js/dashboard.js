@@ -1,10 +1,10 @@
 /**
- * HirePulse Dashboard Client Scripts
- * Handles live data fetching, interactive Chart.js visualizations, filtering, and modal popups.
+ * HirePulse — Modern Talent Pipeline Client Engine
+ * Clean, high-performance data dashboard for executive recruitment operations.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Global chart instances
+    // Chart instances
     let funnelChart = null;
     let timelineChart = null;
     let departmentChart = null;
@@ -12,20 +12,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let allCandidates = [];
     let allDepartments = [];
+    let candidatePendingDeleteId = null;
 
-    // Initialize
+    // Initialize application
     initTheme();
     setupNavigation();
     setupFilters();
-    setupModal();
+    setupModalsAndEvents();
     loadDashboardData();
 
-    // Refresh button
-    document.getElementById("refreshBtn")?.addEventListener("click", () => {
-        loadDashboardData();
+    // Refresh Sync Button
+    document.getElementById("refreshBtn")?.addEventListener("click", async () => {
+        const btn = document.getElementById("refreshBtn");
+        const origText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-arrows-rotate fa-spin"></i> <span>Syncing...</span>';
+        btn.disabled = true;
+        await loadDashboardData();
+        showToast("Pipeline metrics synchronized with database.", "success");
+        btn.disabled = false;
+        btn.innerHTML = origText;
     });
 
-    // Theme toggle
+    // --------------------------------------------------------------------------
+    // Theme Management
+    // --------------------------------------------------------------------------
     function initTheme() {
         const toggleBtn = document.getElementById("themeToggle");
         const savedTheme = localStorage.getItem("hirepulse_theme") || "dark";
@@ -49,14 +59,40 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function updateChartsTheme() {
-        if (funnelChart) funnelChart.update();
-        if (timelineChart) timelineChart.update();
-        if (departmentChart) departmentChart.update();
-        if (salaryChart) salaryChart.update();
+    function isDarkTheme() {
+        return document.documentElement.getAttribute("data-theme") !== "light";
     }
 
+    function getChartThemeColors() {
+        const isDark = isDarkTheme();
+        return {
+            textColor: isDark ? "#94a3b8" : "#64748b",
+            gridColor: isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.06)",
+            tooltipBg: isDark ? "#1a202c" : "#ffffff",
+            tooltipBorder: isDark ? "#3b465c" : "#cbd5e1",
+            tooltipText: isDark ? "#f8fafc" : "#0f172a"
+        };
+    }
+
+    function updateChartsTheme() {
+        if (funnelChart) funnelChart.destroy();
+        if (timelineChart) timelineChart.destroy();
+        if (departmentChart) departmentChart.destroy();
+        if (salaryChart) salaryChart.destroy();
+
+        funnelChart = null;
+        timelineChart = null;
+        departmentChart = null;
+        salaryChart = null;
+
+        fetchFunnel();
+        fetchTimeline();
+        fetchDepartments();
+    }
+
+    // --------------------------------------------------------------------------
     // Tab Navigation
+    // --------------------------------------------------------------------------
     function setupNavigation() {
         const navItems = document.querySelectorAll(".nav-item");
         const tabPanes = document.querySelectorAll(".tab-pane");
@@ -74,7 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Load all data
+    // --------------------------------------------------------------------------
+    // Data Loading Pipeline
+    // --------------------------------------------------------------------------
     async function loadDashboardData() {
         await Promise.all([
             fetchSummary(),
@@ -95,9 +133,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const d = json.data;
                 document.getElementById("metricTotalCandidates").textContent = d.total_candidates.toLocaleString();
                 document.getElementById("metricOffersSent").textContent = d.total_offers.toLocaleString();
-                document.getElementById("metricOfferAcceptance").textContent = `${d.offer_acceptance_rate}% Acceptance`;
+                document.getElementById("metricOfferAcceptance").innerHTML = `<span>${d.offer_acceptance_rate}% Acceptance rate</span>`;
                 document.getElementById("metricJoined").textContent = d.joined_count.toLocaleString();
-                document.getElementById("metricConversionRate").textContent = `${d.overall_conversion_rate}% Conversion`;
+                document.getElementById("metricConversionRate").innerHTML = `<i class="fa-solid fa-check-double"></i> <span>${d.overall_conversion_rate}% Overall conversion</span>`;
                 document.getElementById("metricTimeToHire").innerHTML = `${d.avg_time_to_hire_days} <small>days</small>`;
                 document.getElementById("metricAvgSalary").textContent = d.avg_salary > 0 ? `$${d.avg_salary.toLocaleString()}` : "N/A";
                 document.getElementById("metricTopDept").textContent = d.top_department;
@@ -107,15 +145,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 2. Recruitment Funnel
+    // 2. Recruitment Funnel Chart & Cards
     async function fetchFunnel() {
         try {
             const res = await fetch("/api/funnel");
             const json = await res.json();
             if (json.status === "success") {
-                const data = json.data;
-                renderFunnelChart(data);
-                renderFunnelCards(data);
+                renderFunnelChart(json.data);
+                renderFunnelCards(json.data);
             }
         } catch (err) {
             console.error("Error fetching funnel:", err);
@@ -127,27 +164,28 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!ctx) return;
 
         if (funnelChart) funnelChart.destroy();
+        const colors = getChartThemeColors();
 
-        const labels = data.map(d => d.stage);
-        const counts = data.map(d => d.count);
+        const stageColors = [
+            "#3b82f6",
+            "#0ea5e9",
+            "#6366f1",
+            "#8b5cf6",
+            "#f59e0b",
+            "#10b981"
+        ];
 
         funnelChart = new Chart(ctx, {
             type: "bar",
             data: {
-                labels: labels,
+                labels: data.map(d => d.stage),
                 datasets: [{
                     label: "Candidates in Stage",
-                    data: counts,
-                    backgroundColor: [
-                        "rgba(99, 102, 241, 0.85)",
-                        "rgba(59, 130, 246, 0.85)",
-                        "rgba(139, 92, 246, 0.85)",
-                        "rgba(20, 184, 166, 0.85)",
-                        "rgba(245, 158, 11, 0.85)",
-                        "rgba(16, 185, 129, 0.85)"
-                    ],
-                    borderRadius: 8,
-                    borderWidth: 0
+                    data: data.map(d => d.count),
+                    backgroundColor: stageColors,
+                    borderRadius: 6,
+                    borderSkipped: false,
+                    maxBarThickness: 48
                 }]
             },
             options: {
@@ -156,11 +194,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 plugins: {
                     legend: { display: false },
                     tooltip: {
+                        backgroundColor: colors.tooltipBg,
+                        borderColor: colors.tooltipBorder,
+                        borderWidth: 1,
+                        titleColor: colors.tooltipText,
+                        bodyColor: colors.textColor,
+                        padding: 10,
+                        boxPadding: 4,
+                        usePointStyle: true,
                         callbacks: {
                             afterLabel: (ctx) => {
-                                const idx = ctx.dataIndex;
-                                const item = data[idx];
-                                return `Drop-off: ${item.drop_off} (${item.drop_off_pct}%)\nOverall Conversion: ${item.overall_conversion_pct}%`;
+                                const item = data[ctx.dataIndex];
+                                return `Drop-off: ${item.drop_off} (${item.drop_off_pct}%)\nTotal Conversion: ${item.overall_conversion_pct}%`;
                             }
                         }
                     }
@@ -168,11 +213,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 scales: {
                     x: {
                         grid: { display: false },
-                        ticks: { color: "#9ca3af" }
+                        ticks: { color: colors.textColor, font: { size: 11, weight: "500" } }
                     },
                     y: {
-                        grid: { color: "rgba(255, 255, 255, 0.05)" },
-                        ticks: { color: "#9ca3af" }
+                        grid: { color: colors.gridColor },
+                        ticks: { color: colors.textColor, font: { size: 11 } }
                     }
                 }
             }
@@ -187,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="funnel-step-item">
                 <div class="step-name">${item.stage}</div>
                 <div class="step-count">${item.count}</div>
-                <div class="step-drop">${item.drop_off > 0 ? `-${item.drop_off} (${item.drop_off_pct}%)` : 'Top Stage'}</div>
+                <div class="step-drop">${item.drop_off > 0 ? `-${item.drop_off} (${item.drop_off_pct}%)` : 'Top Inflow'}</div>
             </div>
         `).join("");
     }
@@ -210,37 +255,53 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!ctx) return;
 
         if (timelineChart) timelineChart.destroy();
+        const colors = getChartThemeColors();
+
+        const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+        gradient.addColorStop(0, "rgba(59, 130, 246, 0.25)");
+        gradient.addColorStop(1, "rgba(59, 130, 246, 0.0)");
 
         timelineChart = new Chart(ctx, {
             type: "line",
             data: {
                 labels: data.labels,
                 datasets: [{
-                    label: "Applications Inflow",
+                    label: "Inbound Applications",
                     data: data.values,
-                    borderColor: "#6366f1",
-                    backgroundColor: "rgba(99, 102, 241, 0.15)",
-                    borderWidth: 3,
+                    borderColor: "#3b82f6",
+                    backgroundColor: gradient,
+                    borderWidth: 2.5,
                     fill: true,
-                    tension: 0.4,
-                    pointBackgroundColor: "#8b5cf6",
-                    pointRadius: 4
+                    tension: 0.35,
+                    pointBackgroundColor: "#3b82f6",
+                    pointBorderColor: isDarkTheme() ? "#0b0d11" : "#ffffff",
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { display: false }
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: colors.tooltipBg,
+                        borderColor: colors.tooltipBorder,
+                        borderWidth: 1,
+                        titleColor: colors.tooltipText,
+                        bodyColor: colors.textColor,
+                        padding: 10
+                    }
                 },
                 scales: {
                     x: {
                         grid: { display: false },
-                        ticks: { color: "#9ca3af" }
+                        ticks: { color: colors.textColor, font: { size: 11 } }
                     },
                     y: {
-                        grid: { color: "rgba(255, 255, 255, 0.05)" },
-                        ticks: { color: "#9ca3af", precision: 0 }
+                        grid: { color: colors.gridColor },
+                        ticks: { color: colors.textColor, font: { size: 11 }, precision: 0 }
                     }
                 }
             }
@@ -266,6 +327,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderDepartmentCharts(data) {
         const ctxDept = document.getElementById("departmentChart")?.getContext("2d");
         const ctxSalary = document.getElementById("salaryChart")?.getContext("2d");
+        const colors = getChartThemeColors();
 
         if (ctxDept) {
             if (departmentChart) departmentChart.destroy();
@@ -277,29 +339,43 @@ document.addEventListener("DOMContentLoaded", () => {
                         {
                             label: "Total Candidates",
                             data: data.map(d => d.total_candidates),
-                            backgroundColor: "rgba(99, 102, 241, 0.8)",
-                            borderRadius: 6
+                            backgroundColor: "#3b82f6",
+                            borderRadius: 4
                         },
                         {
                             label: "Offers Sent",
                             data: data.map(d => d.offers_sent),
-                            backgroundColor: "rgba(20, 184, 166, 0.8)",
-                            borderRadius: 6
+                            backgroundColor: "#8b5cf6",
+                            borderRadius: 4
                         },
                         {
-                            label: "Joined / Hired",
+                            label: "Hired / Joined",
                             data: data.map(d => d.joined),
-                            backgroundColor: "rgba(16, 185, 129, 0.8)",
-                            borderRadius: 6
+                            backgroundColor: "#10b981",
+                            borderRadius: 4
                         }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: "top",
+                            align: "end",
+                            labels: { color: colors.textColor, boxWidth: 10, usePointStyle: true }
+                        },
+                        tooltip: {
+                            backgroundColor: colors.tooltipBg,
+                            borderColor: colors.tooltipBorder,
+                            borderWidth: 1,
+                            titleColor: colors.tooltipText,
+                            bodyColor: colors.textColor
+                        }
+                    },
                     scales: {
-                        x: { ticks: { color: "#9ca3af" }, grid: { display: false } },
-                        y: { ticks: { color: "#9ca3af" }, grid: { color: "rgba(255, 255, 255, 0.05)" } }
+                        x: { ticks: { color: colors.textColor, font: { size: 11 } }, grid: { display: false } },
+                        y: { ticks: { color: colors.textColor, font: { size: 11 } }, grid: { color: colors.gridColor } }
                     }
                 }
             });
@@ -314,16 +390,37 @@ document.addEventListener("DOMContentLoaded", () => {
                     datasets: [{
                         label: "Average Offer Salary ($)",
                         data: data.map(d => d.avg_salary),
-                        backgroundColor: "rgba(245, 158, 11, 0.85)",
-                        borderRadius: 6
+                        backgroundColor: "#f59e0b",
+                        borderRadius: 4,
+                        maxBarThickness: 36
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: colors.tooltipBg,
+                            borderColor: colors.tooltipBorder,
+                            borderWidth: 1,
+                            titleColor: colors.tooltipText,
+                            bodyColor: colors.textColor,
+                            callbacks: {
+                                label: (ctx) => `Avg Salary: $${Number(ctx.raw).toLocaleString()}`
+                            }
+                        }
+                    },
                     scales: {
-                        x: { ticks: { color: "#9ca3af" }, grid: { display: false } },
-                        y: { ticks: { color: "#9ca3af" }, grid: { color: "rgba(255, 255, 255, 0.05)" } }
+                        x: { ticks: { color: colors.textColor, font: { size: 11 } }, grid: { display: false } },
+                        y: {
+                            ticks: {
+                                color: colors.textColor,
+                                font: { size: 11 },
+                                callback: (val) => `$${Number(val).toLocaleString()}`
+                            },
+                            grid: { color: colors.gridColor }
+                        }
                     }
                 }
             });
@@ -342,7 +439,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${d.offers_accepted}</td>
                 <td><span class="status-pill status-completed">${d.joined}</span></td>
                 <td>${d.hire_rate}%</td>
-                <td>${d.avg_salary > 0 ? `$${d.avg_salary.toLocaleString()}` : 'N/A'}</td>
+                <td><strong>${d.avg_salary > 0 ? `$${d.avg_salary.toLocaleString()}` : 'N/A'}</strong></td>
             </tr>
         `).join("");
     }
@@ -350,8 +447,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function populateDepartmentFilter(data) {
         const select = document.getElementById("departmentFilter");
         if (!select) return;
+        const currentVal = select.value;
         select.innerHTML = '<option value="">All Departments</option>' +
-            data.map(d => `<option value="${d.department}">${d.department}</option>`).join("");
+            data.map(d => `<option value="${d.department}" ${d.department === currentVal ? 'selected' : ''}>${d.department}</option>`).join("");
     }
 
     // 5. Candidate Explorer
@@ -390,7 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const matchesSearch = !search ||
                 c.full_name.toLowerCase().includes(search) ||
                 c.email.toLowerCase().includes(search) ||
-                String(c.candidate_id).includes(search);
+                String(c.candidate_id).toLowerCase().includes(search);
 
             const matchesDept = !dept || c.department === dept;
             const matchesStage = !stage || c.current_stage === stage;
@@ -402,6 +500,15 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCandidatesTable(filtered);
     }
 
+    function getInitials(name) {
+        if (!name) return "CA";
+        const parts = name.trim().split(" ");
+        if (parts.length >= 2) {
+            return (parts[0][0] + parts[1][0]).toUpperCase();
+        }
+        return name.slice(0, 2).toUpperCase();
+    }
+
     function renderCandidatesTable(candidates) {
         const tbody = document.getElementById("candidatesTableBody");
         const countDisplay = document.getElementById("candidateCountDisplay");
@@ -410,7 +517,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!tbody) return;
 
         if (candidates.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 2rem; color: var(--text-muted);">No candidates matching the criteria.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">No candidate records match your query.</td></tr>`;
             return;
         }
 
@@ -420,16 +527,28 @@ document.addEventListener("DOMContentLoaded", () => {
             else if (c.stage_status === "In Progress") statusClass = "status-inprogress";
             else if (c.stage_status === "Dropped") statusClass = "status-dropped";
 
-            const offerStr = c.offer_salary ? `$${c.offer_salary.toLocaleString()} (${c.offer_accepted ? 'Accepted' : 'Pending'})` : 'No Offer';
+            const offerStr = c.offer_salary 
+                ? `$${c.offer_salary.toLocaleString()} <span style="font-size: 0.72rem; color: var(--text-muted);">(${c.offer_accepted ? 'Accepted' : 'Pending'})</span>` 
+                : '<span style="color: var(--text-muted); font-size: 0.8rem;">No offer</span>';
+
+            const initials = getInitials(c.full_name);
             const safeName = (c.full_name || 'Candidate').replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
             return `
                 <tr>
-                    <td>#${c.candidate_id}</td>
-                    <td><strong>${c.full_name}</strong><br><small style="color:var(--text-muted)">${c.email}</small></td>
+                    <td><span style="font-family: monospace; font-size: 0.8rem; color: var(--text-muted);">#${c.candidate_id}</span></td>
+                    <td>
+                        <div class="candidate-cell">
+                            <div class="candidate-avatar">${initials}</div>
+                            <div>
+                                <div class="candidate-info-name">${c.full_name}</div>
+                                <div class="candidate-info-email">${c.email}</div>
+                            </div>
+                        </div>
+                    </td>
                     <td><span class="badge-dept">${c.department}</span></td>
                     <td>${c.applied_date || 'N/A'}</td>
-                    <td>${c.current_stage}</td>
+                    <td><strong>${c.current_stage}</strong></td>
                     <td><span class="status-pill ${statusClass}">${c.stage_status}</span></td>
                     <td>${offerStr}</td>
                     <td>
@@ -450,7 +569,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }).join("");
     }
 
-    // 6. Anomalies and Quality
+    // 6. Anomalies and Quality Alerts
     async function fetchAnomalies() {
         try {
             const res = await fetch("/api/anomalies");
@@ -463,7 +582,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const container = document.getElementById("anomaliesList");
                 if (container) {
                     container.innerHTML = list.map(a => `
-                        <div class="anomaly-card glass-card ${a.severity.toLowerCase()}">
+                        <div class="anomaly-card ${a.severity.toLowerCase()}">
                             <div class="anomaly-icon">
                                 <i class="fa-solid ${a.severity === 'Warning' ? 'fa-triangle-exclamation' : 'fa-circle-info'}"></i>
                             </div>
@@ -480,10 +599,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 7. Modals and Candidate Management (CRUD)
-    let candidatePendingDeleteId = null;
-
-    function setupModal() {
+    // 7. Modals & CRUD Event Handlers
+    function setupModalsAndEvents() {
         // Detail modal close
         const detailModal = document.getElementById("candidateModal");
         const closeDetailBtn = document.getElementById("closeModalBtn");
@@ -530,8 +647,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const subtitle = document.getElementById("candidateFormModalSubtitle");
         const form = document.getElementById("candidateForm");
         
-        if (title) title.innerHTML = '<i class="fa-solid fa-user-plus"></i> Add New Candidate';
-        if (subtitle) subtitle.textContent = 'Enter candidate details to add them to the active recruitment pipeline.';
+        if (title) title.innerHTML = '<i class="fa-solid fa-user-plus" style="margin-right:6px; color:var(--brand-primary);"></i> Add New Candidate';
+        if (subtitle) subtitle.textContent = 'Enter candidate details to add them to the recruitment pipeline.';
         if (form) form.reset();
 
         document.getElementById("formCandidateId").value = "";
@@ -564,7 +681,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const title = document.getElementById("candidateFormModalTitle");
             const subtitle = document.getElementById("candidateFormModalSubtitle");
 
-            if (title) title.innerHTML = `<i class="fa-solid fa-user-pen"></i> Edit Candidate #${cid}`;
+            if (title) title.innerHTML = `<i class="fa-solid fa-user-pen" style="margin-right:6px; color:var(--brand-primary);"></i> Edit Candidate #${cid}`;
             if (subtitle) subtitle.textContent = `Update recruitment records and profile for ${c.full_name}.`;
 
             document.getElementById("formCandidateId").value = cid;
@@ -631,7 +748,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const saveBtn = document.getElementById("saveCandidateBtn");
         const originalBtnHtml = saveBtn.innerHTML;
         saveBtn.disabled = true;
-        saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+        saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Saving...</span>';
 
         try {
             const url = cid ? `/api/candidate/${cid}` : "/api/candidate";
@@ -667,7 +784,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const deleteBtn = document.getElementById("confirmDeleteBtn");
         const originalBtnHtml = deleteBtn.innerHTML;
         deleteBtn.disabled = true;
-        deleteBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Deleting...';
+        deleteBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Deleting...</span>';
 
         try {
             const res = await fetch(`/api/candidate/${candidatePendingDeleteId}`, {
@@ -706,67 +823,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
             toast.style.opacity = "0";
-            toast.style.transform = "translateY(20px)";
-            setTimeout(() => toast.remove(), 300);
-        }, 3500);
+            toast.style.transform = "translateY(12px)";
+            setTimeout(() => toast.remove(), 250);
+        }, 3200);
     }
 
+    // Candidate Detail Modal View
     window.viewCandidateDetails = async function(cid) {
         try {
             const res = await fetch(`/api/candidate/${cid}`);
             const json = await res.json();
             if (json.status === "success") {
                 const c = json.candidate;
-                const stages = json.stages;
-                const interviews = json.interviews;
-                const offers = json.offers;
-                const onboarding = json.onboarding;
+                const stages = json.stages || [];
+                const interviews = json.interviews || [];
+                const offers = json.offers || [];
+                const onboarding = json.onboarding || [];
 
                 document.getElementById("modalCandidateName").textContent = c.full_name;
-                document.getElementById("modalCandidateDept").textContent = c.department;
+                document.getElementById("modalCandidateDept").textContent = `${c.department} • Applied ${c.applied_date || 'N/A'}`;
 
                 const body = document.getElementById("modalCandidateContent");
                 body.innerHTML = `
-                    <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                    <div style="margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding: 10px 14px; background: var(--bg-root); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
                         <div>
-                            <p style="margin-bottom: 4px;"><strong>Email:</strong> ${c.email} &nbsp;|&nbsp; <strong>Phone:</strong> ${c.phone || 'N/A'}</p>
-                            <p><strong>Application Date:</strong> ${c.applied_date || 'N/A'}</p>
+                            <div style="font-size: 0.85rem; color: var(--text-primary);"><strong>Email:</strong> ${c.email} &nbsp;|&nbsp; <strong>Phone:</strong> ${c.phone || 'N/A'}</div>
                         </div>
-                        <div style="display: flex; gap: 8px;">
+                        <div>
                             <button class="btn-detail" onclick="document.getElementById('candidateModal').classList.remove('show'); openEditCandidateModal('${c.candidate_id}')">
-                                <i class="fa-solid fa-pen-to-square"></i> Edit Profile
+                                <i class="fa-solid fa-pen-to-square"></i> Edit Candidate
                             </button>
                         </div>
                     </div>
 
-                    <h4 style="margin-bottom: 0.75rem;">Recruitment Stages</h4>
-                    <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 0.88rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 0.6rem;">Pipeline Journey</h4>
+                    <div style="margin-bottom: 1.25rem;">
                         ${stages.length > 0 ? stages.map(s => `
                             <div class="modal-timeline-item">
-                                <strong>${s.stage_name}</strong> - <span class="status-pill status-${s.status.toLowerCase().replace(' ', '')}">${s.status}</span>
-                                <div style="font-size: 0.8rem; color: var(--text-muted);">${s.stage_date}</div>
+                                <div style="font-weight: 600; color: var(--text-primary);">${s.stage_name} — <span class="status-pill status-${s.status.toLowerCase().replace(' ', '')}" style="font-size: 0.7rem; padding: 1px 6px;">${s.status}</span></div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">${s.stage_date}</div>
                             </div>
-                        `).join("") : '<p style="color:var(--text-muted)">No stage records recorded.</p>'}
+                        `).join("") : '<p style="color:var(--text-muted); font-size: 0.85rem;">No stage progression records.</p>'}
                     </div>
 
-                    <h4 style="margin-bottom: 0.75rem;">Interview Rounds</h4>
-                    <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 0.88rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 0.6rem;">Interviews & Evaluations</h4>
+                    <div style="margin-bottom: 1.25rem;">
                         ${interviews.length > 0 ? interviews.map(i => `
-                            <div style="background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; margin-bottom: 8px;">
-                                <strong>${i.round_name}</strong> (Score: ${i.score}/10) - <em>${i.result}</em>
-                                <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:4px;">"${i.feedback}"</p>
-                                <small style="color:var(--text-muted)">Interviewer: ${i.interviewer_name} on ${i.interview_date}</small>
+                            <div style="background: var(--bg-root); border: 1px solid var(--border-subtle); padding: 10px 12px; border-radius: var(--radius-md); margin-bottom: 8px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <strong style="font-size: 0.85rem; color: var(--text-primary);">${i.round_name}</strong>
+                                    <span style="font-size: 0.78rem; font-weight: 700; color: var(--brand-primary);">Score: ${i.score}/10</span>
+                                </div>
+                                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; font-style: italic;">"${i.feedback}"</p>
+                                <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">Evaluator: ${i.interviewer_name} on ${i.interview_date}</div>
                             </div>
-                        `).join("") : '<p style="color:var(--text-muted)">No interview rounds logged.</p>'}
+                        `).join("") : '<p style="color:var(--text-muted); font-size: 0.85rem;">No interview records logged.</p>'}
                     </div>
 
-                    <h4 style="margin-bottom: 0.75rem;">Offer & Onboarding</h4>
-                    <div>
+                    <h4 style="font-size: 0.88rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 0.6rem;">Compensation & Onboarding</h4>
+                    <div style="background: var(--bg-root); border: 1px solid var(--border-subtle); padding: 10px 12px; border-radius: var(--radius-md); font-size: 0.82rem;">
                         ${offers.length > 0 ? `
-                            <p><strong>Offer Sent:</strong> $${offers[0].salary?.toLocaleString()} on ${offers[0].offer_date} (${offers[0].accepted ? 'Accepted' : 'Pending/Declined'})</p>
-                        ` : '<p style="color:var(--text-muted)">No offer record.</p>'}
+                            <p style="margin-bottom: 4px;"><strong>Offer Extended:</strong> $${offers[0].salary?.toLocaleString()} on ${offers[0].offer_date} (${offers[0].accepted ? '<span style="color:var(--status-success); font-weight:600;">Accepted</span>' : '<span style="color:var(--status-warning); font-weight:600;">Pending</span>'})</p>
+                        ` : '<p style="color:var(--text-muted); margin-bottom: 4px;">No offer extended.</p>'}
                         ${onboarding.length > 0 ? `
-                            <p><strong>Onboarding Status:</strong> ${onboarding[0].onboarding_status} (Joined: ${onboarding[0].joining_date})</p>
+                            <p><strong>Onboarding Status:</strong> <span class="status-pill status-completed">${onboarding[0].onboarding_status}</span> (Joined: ${onboarding[0].joining_date})</p>
                         ` : ''}
                     </div>
                 `;
