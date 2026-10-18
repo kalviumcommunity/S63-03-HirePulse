@@ -49,3 +49,12 @@ psql -h localhost -p 55432 -U hirepulse -d hirepulse_sql -f database/aggregation
 
 The Python demonstration uses this same URL by default and accepts
 `DATABASE_URL` as an environment-variable override.
+
+## SQL-Based Insight Validation
+
+The schema also includes `logins`, which links `user_id` to
+`customers.customer_id`. The validation assignment uses:
+
+- `logins.login_at` for 30-day active users;
+- `orders.order_amount` for average order value; and
+- completed positive orders in the previous/current calendar months for churn.

@@ -6,6 +6,7 @@
 -- schema and realistic seed data.
 
 DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS logins CASCADE;
 DROP TABLE IF EXISTS customers CASCADE;
 
 CREATE TABLE customers (
@@ -26,8 +27,15 @@ CREATE TABLE orders (
     order_status TEXT NOT NULL CHECK (order_status IN ('completed', 'cancelled', 'refunded'))
 );
 
+CREATE TABLE logins (
+    login_id BIGSERIAL PRIMARY KEY,
+    user_id TEXT NOT NULL REFERENCES customers(customer_id),
+    login_at TIMESTAMPTZ NOT NULL
+);
+
 CREATE INDEX idx_orders_customer_date ON orders(customer_id, order_date);
 CREATE INDEX idx_orders_date ON orders(order_date);
+CREATE INDEX idx_logins_user_date ON logins(user_id, login_at);
 
 INSERT INTO customers
     (customer_id, customer_name, segment, region, country, signup_date, deleted_at)
@@ -79,3 +87,24 @@ VALUES
     ('O1026', 'C015', '2026-09-21', 999.00, 'completed'),
     ('O1027', 'C002', '2026-09-08', 100.00, 'cancelled'),
     ('O1028', 'C004', '2026-09-15', 500.00, 'refunded');
+
+-- Relative dates keep the seed data useful whenever the validation is rerun.
+INSERT INTO logins (user_id, login_at)
+VALUES
+    ('C001', CURRENT_TIMESTAMP - INTERVAL '2 days'),
+    ('C002', CURRENT_TIMESTAMP - INTERVAL '5 days'),
+    ('C003', CURRENT_TIMESTAMP - INTERVAL '35 days'),
+    ('C004', CURRENT_TIMESTAMP - INTERVAL '1 day'),
+    ('C005', CURRENT_TIMESTAMP - INTERVAL '45 days'),
+    ('C006', CURRENT_TIMESTAMP - INTERVAL '29 days'),
+    ('C007', CURRENT_TIMESTAMP - INTERVAL '31 days'),
+    ('C008', CURRENT_TIMESTAMP - INTERVAL '10 days'),
+    ('C009', CURRENT_TIMESTAMP - INTERVAL '60 days'),
+    ('C010', CURRENT_TIMESTAMP - INTERVAL '14 days'),
+    ('C011', CURRENT_TIMESTAMP - INTERVAL '3 days'),
+    ('C012', CURRENT_TIMESTAMP - INTERVAL '20 days'),
+    ('C013', CURRENT_TIMESTAMP - INTERVAL '8 days'),
+    ('C014', CURRENT_TIMESTAMP - INTERVAL '32 days'),
+    ('C015', CURRENT_TIMESTAMP - INTERVAL '90 days'),
+    ('C001', CURRENT_TIMESTAMP - INTERVAL '40 days'),
+    ('C004', CURRENT_TIMESTAMP - INTERVAL '65 days');
