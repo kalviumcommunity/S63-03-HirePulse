@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,8 @@
     <!-- Google Fonts (Plus Jakarta Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- FontAwesome for icons -->
@@ -15,6 +17,7 @@
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
+
 <body>
     <!-- Top Workspace Navbar -->
     <header class="navbar">
@@ -95,7 +98,8 @@
                 <div class="section-header">
                     <div>
                         <h2 class="section-title">Recruitment Pipeline Overview</h2>
-                        <p class="section-subtitle">Real-time candidate metrics, funnel progression, and hiring velocity.</p>
+                        <p class="section-subtitle">Real-time candidate metrics, funnel progression, and hiring
+                            velocity.</p>
                     </div>
                     <div class="meta-chip">
                         <i class="fa-regular fa-clock" style="margin-right: 4px;"></i> Live Synchronized
@@ -209,7 +213,8 @@
                 <div class="section-header">
                     <div>
                         <h2 class="section-title">Department Hiring Performance</h2>
-                        <p class="section-subtitle">Benchmarking application volume, conversion velocity, and compensation by department.</p>
+                        <p class="section-subtitle">Benchmarking application volume, conversion velocity, and
+                            compensation by department.</p>
                     </div>
                 </div>
 
@@ -270,7 +275,8 @@
                 <div class="section-header">
                     <div>
                         <h2 class="section-title">Candidate Explorer</h2>
-                        <p class="section-subtitle">Search, filter, manage, and inspect profiles across the hiring lifecycle.</p>
+                        <p class="section-subtitle">Search, filter, manage, and inspect profiles across the hiring
+                            lifecycle.</p>
                     </div>
                     <button id="addCandidateBtn" class="btn-primary">
                         <i class="fa-solid fa-plus"></i>
@@ -282,7 +288,8 @@
                 <div class="card-panel filter-bar">
                     <div class="search-box">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" id="candidateSearchInput" placeholder="Search by name, email, or candidate ID...">
+                        <input type="text" id="candidateSearchInput"
+                            placeholder="Search by name, email, or candidate ID...">
                     </div>
                     <div class="filter-group">
                         <select id="departmentFilter" class="filter-select">
@@ -339,7 +346,8 @@
                 <div class="section-header">
                     <div>
                         <h2 class="section-title">Anomaly Detection & Pipeline Health</h2>
-                        <p class="section-subtitle">Automated outlier detection, compensation discrepancies, and hiring bottlenecks.</p>
+                        <p class="section-subtitle">Automated outlier detection, compensation discrepancies, and hiring
+                            bottlenecks.</p>
                     </div>
                 </div>
 
@@ -371,20 +379,23 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title-wrap">
-                    <h3 id="candidateFormModalTitle"><i class="fa-solid fa-user-plus" style="margin-right: 6px; color: var(--brand-primary);"></i> Add Candidate</h3>
-                    <p class="modal-subtitle" id="candidateFormModalSubtitle">Enter candidate details to track in the recruitment pipeline.</p>
+                    <h3 id="candidateFormModalTitle"><i class="fa-solid fa-user-plus"
+                            style="margin-right: 6px; color: var(--brand-primary);"></i> Add Candidate</h3>
+                    <p class="modal-subtitle" id="candidateFormModalSubtitle">Enter candidate details to track in the
+                        recruitment pipeline.</p>
                 </div>
                 <button id="closeCandidateFormModalBtn" class="btn-icon-subtle">&times;</button>
             </div>
             <form id="candidateForm" class="modal-body">
                 <input type="hidden" id="formCandidateId" value="">
-                
+
                 <div class="form-grid">
                     <div class="form-group full-width">
                         <label for="formFullName">Full Name <span class="required">*</span></label>
                         <div class="input-icon-wrap">
                             <i class="fa-solid fa-user input-icon"></i>
-                            <input type="text" id="formFullName" class="form-control" placeholder="e.g. Alex Morgan" required>
+                            <input type="text" id="formFullName" class="form-control" placeholder="e.g. Alex Morgan"
+                                required>
                         </div>
                     </div>
 
@@ -392,7 +403,8 @@
                         <label for="formEmail">Email Address <span class="required">*</span></label>
                         <div class="input-icon-wrap">
                             <i class="fa-solid fa-envelope input-icon"></i>
-                            <input type="email" id="formEmail" class="form-control" placeholder="alex.morgan@example.com" required>
+                            <input type="email" id="formEmail" class="form-control"
+                                placeholder="alex.morgan@example.com" required>
                         </div>
                     </div>
 
@@ -452,7 +464,8 @@
                         <label for="formOfferSalary">Offer Salary ($)</label>
                         <div class="input-icon-wrap">
                             <i class="fa-solid fa-dollar-sign input-icon"></i>
-                            <input type="number" id="formOfferSalary" class="form-control" placeholder="e.g. 85000" min="0" step="1000">
+                            <input type="number" id="formOfferSalary" class="form-control" placeholder="e.g. 85000"
+                                min="0" step="1000">
                         </div>
                     </div>
 
@@ -485,9 +498,12 @@
             </div>
             <h3 class="delete-modal-title">Delete Candidate Record</h3>
             <p class="delete-modal-msg">
-                Are you sure you want to permanently delete <strong id="deleteCandidateName" style="color: var(--text-primary);">Candidate Name</strong> (<span id="deleteCandidateId">#ID</span>)?
+                Are you sure you want to permanently delete <strong id="deleteCandidateName"
+                    style="color: var(--text-primary);">Candidate Name</strong> (<span
+                    id="deleteCandidateId">#ID</span>)?
                 <br><br>
-                <span class="danger-warning">All interview notes, pipeline progress, and compensation records will be removed.</span>
+                <span class="danger-warning">All interview notes, pipeline progress, and compensation records will be
+                    removed.</span>
             </p>
             <div class="modal-footer" style="justify-content: center;">
                 <button type="button" id="cancelDeleteBtn" class="btn-secondary">Cancel</button>
@@ -505,4 +521,5 @@
     <!-- Main Client Script -->
     <script src="/static/js/dashboard.js"></script>
 </body>
+
 </html>

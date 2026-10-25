@@ -527,8 +527,8 @@ document.addEventListener("DOMContentLoaded", () => {
             else if (c.stage_status === "In Progress") statusClass = "status-inprogress";
             else if (c.stage_status === "Dropped") statusClass = "status-dropped";
 
-            const offerStr = c.offer_salary 
-                ? `$${c.offer_salary.toLocaleString()} <span style="font-size: 0.72rem; color: var(--text-muted);">(${c.offer_accepted ? 'Accepted' : 'Pending'})</span>` 
+            const offerStr = c.offer_salary
+                ? `$${c.offer_salary.toLocaleString()} <span style="font-size: 0.72rem; color: var(--text-muted);">(${c.offer_accepted ? 'Accepted' : 'Pending'})</span>`
                 : '<span style="color: var(--text-muted); font-size: 0.8rem;">No offer</span>';
 
             const initials = getInitials(c.full_name);
@@ -646,13 +646,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const title = document.getElementById("candidateFormModalTitle");
         const subtitle = document.getElementById("candidateFormModalSubtitle");
         const form = document.getElementById("candidateForm");
-        
+
         if (title) title.innerHTML = '<i class="fa-solid fa-user-plus" style="margin-right:6px; color:var(--brand-primary);"></i> Add New Candidate';
         if (subtitle) subtitle.textContent = 'Enter candidate details to add them to the recruitment pipeline.';
         if (form) form.reset();
 
         document.getElementById("formCandidateId").value = "";
-        
+
         // Default today's date
         const todayStr = new Date().toISOString().split("T")[0];
         document.getElementById("formAppliedDate").value = todayStr;
@@ -664,7 +664,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Open Edit Candidate Modal
-    window.openEditCandidateModal = async function(cid) {
+    window.openEditCandidateModal = async function (cid) {
         try {
             const res = await fetch(`/api/candidate/${cid}`);
             const json = await res.json();
@@ -707,7 +707,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Open Delete Candidate Modal
-    window.openDeleteCandidateModal = function(cid, name) {
+    window.openDeleteCandidateModal = function (cid, name) {
         candidatePendingDeleteId = cid;
         document.getElementById("deleteCandidateName").textContent = name || "Candidate";
         document.getElementById("deleteCandidateId").textContent = `#${cid}`;
@@ -829,7 +829,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Candidate Detail Modal View
-    window.viewCandidateDetails = async function(cid) {
+    window.viewCandidateDetails = async function (cid) {
         try {
             const res = await fetch(`/api/candidate/${cid}`);
             const json = await res.json();
